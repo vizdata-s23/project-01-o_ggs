@@ -40,4 +40,6 @@ These are the two questions we want to answer.
 
 # Analysis plan
 
-A plan for answering each of the questions including the variables involved, variables to be created (if any), external data to be merged in (if any).
+For the first question, we plan to utilize the variables that could effectively distinguish different groups of chocolate bars including the bar brand/name or specific bean origin and graph them against the review ratings to better observe the relationship between the characteristics of chocolates bars and their ratings. In order to do this, we will create a new variables that represent the specific bean origin and the bar name respectively. The "Specific Bean Origin or Bar Name" variable contains varying information and for certain values, we will need to split the character string to obtain data needed.
+
+With regards to the second question, we will make use of the review date and company variables to observe how the user reviews for different companies vary over time. Then using aesthetic parameters of fill and color with alpha values, we plan to gain a better understanding of what potential changes in characteristics have caused an upward or downward in the review ratings.
