@@ -1,5 +1,5 @@
 ---
-title: "Project title"
+title: "A Student's Review of Expert Reviews of Chocolate Bars"
 subtitle: "Proposal"
 format: html
 editor: visual
@@ -19,16 +19,20 @@ chocolate <- read.csv("data/flavors_of_cacao[1].csv")
 
 # Dataset
 
-
 The `chocolate` data set contains information about chocolate bars and reviews written by experts. It contains 9 variables with 1795 observations. The data contain information about the company who makes the chocolate bars, the percent of cocoa, where the company is located, bean type & origin, and review (out of 5 stars).  It comes from the kaggle data set, Chocolate Bar Ratings: Extensive EDA, by Will Canniford. The original data can be found [here](https://www.kaggle.com/code/willcanniford/chocolate-bar-ratings-extensive-eda/data.)
 
 We chose this dataset because we believe it had a variety of interesting variables to look at in relationship to the rating the chocolate bar was given. We were especially intrigued by the dataset containing both time and geo-spatial data. We believe that this will allow us to make informative and visually pleasing graphics. We also all love chocolate.
 
-Make sure to load the data and use inline code for some of this information.
+```{r}
+#| label: glimpsing-data
+head(chocolate, 5)
+names(chocolate)
+
+```
 
 # Questions
 
-The two questions you want to answer.
+These are the two questions we want to answer.
 
 \1. What characteristics of the chocolate make up the most successful chocolate bar in reviews?
 
