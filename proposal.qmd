@@ -8,8 +8,12 @@ editor: visual
 ```{r}
 #| label: load-pkgs
 #| message: false
-
 library(tidyverse)
+library(ggplot2)
+library(readr)
+library(stringr)
+library(lubridate)
+full_data <- flavors_of_cacao_1_
 ```
 
 # Dataset
