@@ -13,8 +13,12 @@ library(ggplot2)
 library(readr)
 library(stringr)
 library(lubridate)
+library(janitor)
 
 chocolate <- read.csv("data/flavors_of_cacao[1].csv")
+
+chocolate <- chocolate %>% 
+  clean_names()
 ```
 
 # Dataset
@@ -25,6 +29,7 @@ The `chocolate` data set contains information about chocolate bars and reviews w
 #| label: glimpsing-data
  
 glimpse(chocolate)
+
 ```
 
 # Why we chose this dataset
@@ -35,14 +40,16 @@ We chose this dataset because we believe it had a variety of interesting variabl
 
 These are the two questions we want to answer.
 
-\\1. What characteristics of the chocolate make up the most successful chocolate bar in reviews?
+1. What characteristics of the chocolate make up the most successful chocolate bar in reviews?
 
-\\2. How do expert reviews change over time for each company?
+2. How do expert reviews change over time for each company?
 
 # Analysis plan
 
-\\1. For the first question, we plan to utilize the variables that could effectively distinguish different groups of chocolate bars including the bar brand/name or specific bean origin and graph them against the review ratings to better observe the relationship between the characteristics of chocolates bars and their ratings. In order to do this, we will create a new variables that represent the specific bean origin and the bar name respectively. The "Specific Bean Origin or Bar Name" variable contains varying information and for certain values, we will need to split the character string to obtain data needed. We will also use existing variables such as Broad.Bean.Origin and Cacao percentage.
+1. For the first question, we plan to utilize the variables (characteristic variables like `broad_bean_origin, specific_bean_origin_or_bar_name, bean_type, cocoa_percent, company_location`, and `bean_type`) that could effectively distinguish different groups of chocolate bars and graph them against the review ratings to better observe the relationship between the characteristics of chocolates bars and their ratings. In order to do this, we will create a new variables that represent the specific bean origin and the bar name respectively. 
+The `specific_bean_origin_or_bar_name` variable contains varying information and for certain values so we will need to split the character string to obtain the data needed. 
 
-\\2. With regards to the second question, we will make use of the review date and company variables to observe how the expert reviews for different companies vary over time. Then using aesthetic parameters of fill and color with alpha values, we plan to gain a better understanding of what potential changes in characteristics have caused an upward or downward in the review ratings over time. We plan to create a time series plot in order to see how the expert reviews for chocolate will improve over time. We will use review_date on the x axis, and we will also incorporate variables such as company and rating in the plot as well.
+2. With regards to the second question, we will make use of the `review_date` on the x axis, `rating` on the y-axis, and company variables (`company_location` and `company_maker_if_known`) to observe how the expert reviews for different companies vary over time. Then using aesthetic parameters of fill and color with our company variables (listed above), we plan to gain a better understanding of what potential changes in characteristics have caused an upward or downward in the review ratings over time. 
+If time allows we hope to use our time series plot to potentially map and compare significant changes in chocolate bar `ratings` to significant world events in the industry at the time of the expert review. 
 
-At this time we do not believe we will need to add any external data to answer either question
+At this time we do not believe we will need to add any external data to answer either question.
