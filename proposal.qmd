@@ -21,7 +21,7 @@ chocolate <- chocolate %>%
   clean_names()
 ```
 
-# Dataset
+## Dataset
 
 The `chocolate` data set contains information about chocolate bars and reviews written by experts. It contains `r ncol(chocolate)` variables with `r nrow(chocolate)` observations. The data contain information about the company who makes the chocolate bars, the percent of cocoa, where the company is located, bean type & origin, and review (out of 5 stars). It comes from the kaggle data set, Chocolate Bar Ratings: Extensive EDA, by Will Canniford. The original data can be found [here](https://www.kaggle.com/code/willcanniford/chocolate-bar-ratings-extensive-eda/data). Here is a small glimpse into what our data looks like.
 
@@ -32,11 +32,11 @@ glimpse(chocolate)
 
 ```
 
-# Why we chose this dataset
+## Why we chose this dataset
 
 We chose this dataset because we believe it had a variety of interesting variables to look at in relationship to the rating the chocolate bar was given. We were especially intrigued by the dataset containing both time and geospatial data. We believe that this will allow us to make informative and visually pleasing graphics. We also all love chocolate.
 
-# Questions
+## Questions
 
 These are the two questions we want to answer.
 
@@ -44,7 +44,7 @@ These are the two questions we want to answer.
 
 2. How do expert reviews change over time for each company?
 
-# Analysis plan
+## Analysis plan
 
 1. For the first question, we plan to utilize the variables (characteristic variables like `broad_bean_origin, specific_bean_origin_or_bar_name, bean_type, cocoa_percent, company_location`, and `bean_type`) that could effectively distinguish different groups of chocolate bars and graph them against the review ratings to better observe the relationship between the characteristics of chocolates bars and their ratings. In order to do this, we will create a new variables that represent the specific bean origin and the bar name respectively. 
 The `specific_bean_origin_or_bar_name` variable contains varying information and for certain values so we will need to split the character string to obtain the data needed. 
