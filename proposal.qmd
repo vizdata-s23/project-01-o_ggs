@@ -17,7 +17,7 @@ library(janitor)
 
 chocolate <- read_csv("data/flavors_of_cacao[1].csv")
 
-chocolate <- chocolate %>% 
+chocolate <- chocolate |>
   clean_names()
 ```
 
