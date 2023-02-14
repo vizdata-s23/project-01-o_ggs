@@ -5,7 +5,7 @@ format: html
 editor: visual
 ---
 
-```{r, warning = F}
+```{r, warning = F, message = FALSE}
 #| label: load-pkgs-data
 #| message: false
 library(tidyverse)
@@ -15,7 +15,7 @@ library(stringr)
 library(lubridate)
 library(janitor)
 
-chocolate <- read.csv("data/flavors_of_cacao[1].csv")
+chocolate <- read_csv("data/flavors_of_cacao[1].csv")
 
 chocolate <- chocolate %>% 
   clean_names()
