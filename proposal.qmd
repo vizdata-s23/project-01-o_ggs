@@ -7,10 +7,10 @@ editor: visual
 
 ```{r}
 #| label: load-pkgs-data
-#| message: false
 #| warning: false
 #| message: false
-#| 
+
+
 library(tidyverse)
 library(janitor)
 
@@ -19,7 +19,6 @@ chocolate <- read_csv("data/flavors_of_cacao[1].csv")
 chocolate <- chocolate |>
   clean_names()
 
-write_csv(chocolate, "data/clean_flavors_of_cacao.csv")
 ```
 
 ## Dataset
@@ -44,6 +43,9 @@ These are the two questions we want to answer.
 1. What characteristics of the chocolate make up the most successful chocolate bar in reviews?
 
 2. How do expert reviews change over time for each company?
+there reviews are very different
+
+Potential Question: Are the differences we found in chocolate companies explain differences in reviews?
 
 ## Analysis plan
 
@@ -51,8 +53,8 @@ These are the two questions we want to answer.
 The `specific_bean_origin_or_bar_name` variable contains varying information and for certain values so we will need to split the character string to obtain the data needed. 
 
 
-
 2. With regards to the second question, we will make use of the `review_date` on the x axis, `rating` on the y-axis, and company variables (`company_location` and `company_maker_if_known`) to observe how the expert reviews for different companies vary over time. Then using aesthetic parameters of fill and color with our company variables (listed above), we plan to gain a better understanding of what potential changes in characteristics have caused an upward or downward in the review ratings over time. 
 If time allows we hope to use our time series plot to potentially map and compare significant changes in chocolate bar `ratings` to significant world events in the industry at the time of the expert review. 
+
 
 At this time we do not believe we will need to add any external data to answer either question.
