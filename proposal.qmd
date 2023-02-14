@@ -12,10 +12,6 @@ editor: visual
 #| message: false
 #| 
 library(tidyverse)
-library(ggplot2)
-library(readr)
-library(stringr)
-library(lubridate)
 library(janitor)
 
 chocolate <- read_csv("data/flavors_of_cacao[1].csv")
