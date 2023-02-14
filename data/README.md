@@ -4,16 +4,16 @@ The `chocolate` data set contains information about chocolate bars and reviews w
 
 ## Static_list
 
-Each row corresponds to a unique expert review of a chocolate
+Each row corresponds to a unique expert review of a chocolate.
 
 | Variable                               | Description                                                                        |
 |----------------------------------------|------------------------------------------------------------------------------------|
-| `company_maker_if_known`              | Name of the company manufacturing the bar.|
-| `specific_bean_origin_or_bar_name`    | The specific geo-region of origin for the bar.|
-| `ref`                                 | review ID that corresponds to when the review was entered in the database.|
-| `review_date`                         | Date of publication of the review.|
-| `cocoa_percent`                       | Cocoa percentage (darkness) of the chocolate bar being reviewed.|
-| `company_location`                    | Manufacturer base country.|
-| `rating`                              | An Expert's rating of the chocolate bar. Our dependent variable.|
-| `bean_type`                           | The variety (breed) of bean used, if provided.|
-| `broad_bean_origin`                   | The broad geo-region of origin for the bean.|
+| `Company \n(Maker-if known)`            | Name of the company manufacturing the bar.|
+| `Specific Bean Origin\nor Bar Name"`   | The specific geo-region of origin for the bar.|
+| `REF`                                 | review ID that corresponds to when the review was entered in the database.|
+| `Review\nDate`                         | Date of publication of the review.|
+| `Cocoa\nPercent`                       | Cocoa percentage (darkness) of the chocolate bar being reviewed.|
+| `Company\nLocation`                    | Manufacturer base country.|
+| `Rating`                              | An Expert's rating of the chocolate bar. Our dependent variable.|
+| `Bean\nType`                           | The variety (breed) of bean used, if provided.|
+| `Broad Bean\nOrigin`                   | The broad geo-region of origin for the bean.|
