@@ -5,9 +5,12 @@ format: html
 editor: visual
 ---
 
-```{r, warning = F, message = FALSE}
+```{r}
 #| label: load-pkgs-data
 #| message: false
+#| warning: false
+#| message: false
+#| 
 library(tidyverse)
 library(ggplot2)
 library(readr)
@@ -25,11 +28,11 @@ chocolate <- chocolate |>
 
 The `chocolate` data set contains information about chocolate bars and reviews written by experts. It contains `r ncol(chocolate)` variables with `r nrow(chocolate)` observations. The data contain information about the company who makes the chocolate bars, the percent of cocoa, where the company is located, bean type & origin, and review (out of 5 stars). It comes from the kaggle data set, Chocolate Bar Ratings: Extensive EDA, by Will Canniford. The original data can be found [here](https://www.kaggle.com/code/willcanniford/chocolate-bar-ratings-extensive-eda/data). Here is a small glimpse into what our data looks like.
 
-```{r, warning = F}
+```{r}
 #| label: glimpsing-data
+#| warning: false
  
 glimpse(chocolate)
-
 ```
 
 ## Why we chose this dataset
