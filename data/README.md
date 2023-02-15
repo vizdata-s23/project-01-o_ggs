@@ -1,12 +1,16 @@
-# data
+# Data
+
+## Data Descriptions
 
 The `chocolate` data set contains information about chocolate bars and reviews written by experts. It contains 9 variables with 1795 observations. The data contain information about the company who makes the chocolate bars, the percent of cocoa, where the company is located, bean type & origin, and review (out of 5 stars). It comes from the kaggle data set, Chocolate Bar Ratings: Extensive EDA, by Will Canniford. The original data can be found [here](https://www.kaggle.com/code/willcanniford/chocolate-bar-ratings-extensive-eda/data).
 
 The second data set, `con2cont`, contains information about different countries and the continents and sub-regions they are located in, their official nomenclature, and country/regional codes. The data set has 9 columns and 249 rows with each row representing a country. Since we are grouping the company locations with their continents, we only select the variables that contain information about the country names and the continent they are located in to be used in our analysis. The data comes from Kaggle and the original data can be found in this [link](https://www.kaggle.com/datasets/statchaitya/country-to-continent).
 
-## Static_list
+
 
 ### Data Set 1: chocolate
+
+Name in repo: `/project-01-o_ggs/data/flavors_of_cacao[1].csv`
 
 Each row corresponds to a unique expert review of a chocolate.
 
@@ -24,7 +28,9 @@ Each row corresponds to a unique expert review of a chocolate.
 
 ### Data Set 2: con2cont
 
-Each row corresponds to a unique expert review of a chocolate.
+Name in repo: `/project-01-o_ggs/data/countryContinent.csv`
+
+Each row corresponds to a unique country and it's general information.
 
 | Variable                               | Description                                                                        |
 |----------------------------------------|------------------------------------------------------------------------------------|

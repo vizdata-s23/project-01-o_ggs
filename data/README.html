@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.313">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>readme</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="README_files/libs/clipboard/clipboard.min.js"></script>
+<script src="README_files/libs/quarto-html/quarto.js"></script>
+<script src="README_files/libs/quarto-html/popper.min.js"></script>
+<script src="README_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="README_files/libs/quarto-html/anchor.min.js"></script>
+<link href="README_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="README_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="README_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="README_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="README_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+<section id="data" class="level1">
+<h1>Data</h1>
+<section id="data-descriptions" class="level2">
+<h2 class="anchored" data-anchor-id="data-descriptions">Data Descriptions</h2>
+<p>The <code>chocolate</code> data set contains information about chocolate bars and reviews written by experts. It contains 9 variables with 1795 observations. The data contain information about the company who makes the chocolate bars, the percent of cocoa, where the company is located, bean type &amp; origin, and review (out of 5 stars). It comes from the kaggle data set, Chocolate Bar Ratings: Extensive EDA, by Will Canniford. The original data can be found <a href="https://www.kaggle.com/code/willcanniford/chocolate-bar-ratings-extensive-eda/data">here</a>.</p>
+<p>The second data set, <code>con2cont</code>, contains information about different countries and the continents and sub-regions they are located in, their official nomenclature, and country/regional codes. The data set has 9 columns and 249 rows with each row representing a country. Since we are grouping the company locations with their continents, we only select the variables that contain information about the country names and the continent they are located in to be used in our analysis. The data comes from Kaggle and the original data can be found in this <a href="https://www.kaggle.com/datasets/statchaitya/country-to-continent">link</a>.</p>
+<section id="data-set-1-chocolate" class="level3">
+<h3 class="anchored" data-anchor-id="data-set-1-chocolate">Data Set 1: chocolate</h3>
+<p>Name in repo: <code>/project-01-o_ggs/data/flavors_of_cacao[1].csv</code> Each row corresponds to a unique expert review of a chocolate.</p>
+<table class="table">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 67%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Company \n(Maker-if known)</code></td>
+<td>Name of the company manufacturing the bar.</td>
+</tr>
+<tr class="even">
+<td><code>Specific Bean Origin\nor Bar Name</code></td>
+<td>The specific geo-region of origin for the bar.</td>
+</tr>
+<tr class="odd">
+<td><code>REF</code></td>
+<td>review ID that corresponds to when the review was entered in the database.</td>
+</tr>
+<tr class="even">
+<td><code>Review\nDate</code></td>
+<td>Date of publication of the review.</td>
+</tr>
+<tr class="odd">
+<td><code>Cocoa\nPercent</code></td>
+<td>Cocoa percentage (darkness) of the chocolate bar being reviewed.</td>
+</tr>
+<tr class="even">
+<td><code>Company\nLocation</code></td>
+<td>Manufacturer base country.</td>
+</tr>
+<tr class="odd">
+<td><code>Rating</code></td>
+<td>An Expert’s rating of the chocolate bar. Our dependent variable.</td>
+</tr>
+<tr class="even">
+<td><code>Bean\nType</code></td>
+<td>The variety (breed) of bean used, if provided.</td>
+</tr>
+<tr class="odd">
+<td><code>Broad Bean\nOrigin</code></td>
+<td>The broad geo-region of origin for the bean.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="data-set-2-con2cont" class="level3">
+<h3 class="anchored" data-anchor-id="data-set-2-con2cont">Data Set 2: con2cont</h3>
+<p>Name in repo: <code>/project-01-o_ggs/data/countryContinent.csv</code> Each row corresponds to a unique country and it’s general information.</p>
+<table class="table">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 67%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>country</code></td>
+<td>Name of the country</td>
+</tr>
+<tr class="even">
+<td><code>code_2</code></td>
+<td>Official, abbreviated name of the country, expressed in 2 letters</td>
+</tr>
+<tr class="odd">
+<td><code>code_3</code></td>
+<td>Official, abbreviated name of the country, expressed in 3 letters</td>
+</tr>
+<tr class="even">
+<td><code>country_code</code></td>
+<td>Country code of the country</td>
+</tr>
+<tr class="odd">
+<td><code>iso_3166_2</code></td>
+<td>Internationally recognized codes of letters and/or numbers used to refer to countries expressed in 2 letters</td>
+</tr>
+<tr class="even">
+<td><code>continent</code></td>
+<td>Continent the country is located in</td>
+</tr>
+<tr class="odd">
+<td><code>sub_region</code></td>
+<td>Sub-region the country is located in</td>
+</tr>
+<tr class="even">
+<td><code>region_code</code></td>
+<td>Numeric region code of the country</td>
+</tr>
+<tr class="odd">
+<td><code>sub_region_code</code></td>
+<td>Numeric sub-region code of the country</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
