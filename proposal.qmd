@@ -1,6 +1,7 @@
 ---
 title: "A Student's Review of Expert Reviews of Chocolate Bars"
 subtitle: "Proposal"
+authors: "Minwoo Kang, Jason Levine, Victoria Midkiff, Dani Trejo"
 format: html
 editor: visual
 ---
@@ -19,22 +20,35 @@ chocolate <- read_csv("data/flavors_of_cacao[1].csv")
 chocolate <- chocolate |>
   clean_names()
 
+con2cont <- read_csv("data/countryContinent.csv") |>
+  select(country, continent)
+
 ```
 
 ## Dataset
 
 The `chocolate` data set contains information about chocolate bars and reviews written by experts. It contains `r ncol(chocolate)` variables with `r nrow(chocolate)` observations. The data contain information about the company who makes the chocolate bars, the percent of cocoa, where the company is located, bean type & origin, and review (out of 5 stars). It comes from the kaggle data set, Chocolate Bar Ratings: Extensive EDA, by Will Canniford. The original data can be found [here](https://www.kaggle.com/code/willcanniford/chocolate-bar-ratings-extensive-eda/data). Here is a small glimpse into what our data looks like. More detail can be found in our data dictionary located in `data/README.md`
 
+
 ```{r}
-#| label: glimpsing-data
+#| label: glimpsing-chocolate-data
 #| warning: false
  
 glimpse(chocolate)
 ```
 
-## Why we chose this dataset
+Add data explanation for `con2cont` here.
+```{r}
+#| label: glimpsing-country-data
+#| warning: false
+ 
+glimpse(con2cont)
+```
 
-We chose this dataset because we believe it had a variety of interesting variables to look at in relationship to the rating the chocolate bar was given. We were especially intrigued by the dataset containing both time and geospatial data. We believe that this will allow us to make informative and visually pleasing graphics. We also all love chocolate.
+## Why we chose the chocolate dataset
+
+We chose this dataset because we believe it had a variety of interesting variables to look at in relationship to the rating the chocolate bar was given. We were especially intrigued by the dataset containing both time and geospatial data. We believe that this will allow us to make informative and visually pleasing graphics. We also all love chocolate and want to understand what makes chocolate successful.
+
 
 ## Questions
 
@@ -49,15 +63,14 @@ Potential Question: Are the differences we found in chocolate companies explain 
 
 ## Analysis plan
 
-1. 
+1. In visualizing the first plot of question (1), we plan to create line plots by year that show the relationship between the cocoa percentage of the chocolate bar and their ratings. This visualization will help us understand how the preference in cocoa percentage level has changed over the years from 2006 to 2017. In creating the variable with year information that will be used in faceting the plots, we will be grouping the year information provided in `review_date` in two's and will create a new character variable using mutate function with conditional arguments that represents the assigned years (e.g. "2006 ~ 2007, "2008 ~ 2009", etc). The variable will then be factored to be in chronological order. For the plot, our x-axis variable is the year and the y-axis variable is the cocoa percentage. The plot will be faceted into 6 time periods assigned within 2006 ~ 2017. Since we would only have a single line in each of the faceted grids, we will modify the color as well as the thickness (size) of the line for better readability.
 
-In visualizing the first plot of question (1), we plan to create line plots by year that show the relationship between the cocoa percentage of the chocolate bar and their ratings. This visualization will help us understand how the preference in cocoa percentage level has changed over the years from 2006 to 2017. In creating the variable with year information that will be used in faceting the plots, we will be grouping the year information provided in `review_date` in two's and will create a new character variable using mutate function with conditional arguments that represents the assigned years (e.g. "2006 ~ 2007, "2008 ~ 2009", etc). The variable will then be factored to be in chronological order. For the plot, our x-axis variable is the year and the y-axis variable is the cocoa percentage. The plot will be faceted into 6 time periods assigned within 2006 ~ 2017. Since we would only have a single line in each of the faceted grids, we will modify the color as well as the thickness (size) of the line for better readability.
+```{r}
+#| label: merging-data
+#| warning: false
+#| message: false
 
-```{r, message=FALSE}
-con2cont <- read_csv("data/countryContinent.csv") %>%
-  select(country, continent)
-
-chocolate <- chocolate %>%
+chocolate <- chocolate |>
   mutate(
     company_location_country = case_when(
       company_location == "U.S.A." ~ "United States of America",
@@ -77,15 +90,18 @@ chocolate <- chocolate %>%
       company_location == "Eucador" ~ "Ecuador",
       TRUE ~ company_location
     )
-  ) %>%
-  merge(
-    x = .,
-    y = con2cont,
-    by.x = c("company_location_country"),
-    by.y = c("country"),
-    all.x = TRUE
   )
 
+con2cont <-con2cont |>
+  rename(company_location_country = country)
+
+chocolate_merged <- chocolate |>
+  left_join(
+    con2cont,
+    multiple = "all"
+  )
+
+#whats the purpose of this?
 setdiff(chocolate$company_location_country, con2cont$country)
 ```
 
