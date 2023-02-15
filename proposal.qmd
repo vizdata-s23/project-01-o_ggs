@@ -45,24 +45,6 @@ The second data set, `con2cont`, contains information about different countries 
 glimpse(con2cont)
 ```
 
-## Why we chose the chocolate dataset
-
-We chose this dataset because we believe it had a variety of interesting variables to look at in relationship to the rating the chocolate bar was given. We were especially intrigued by the dataset containing both time and geospatial data. We believe that this will allow us to make informative and visually pleasing graphics. We also all love chocolate and want to understand what makes chocolate successful.
-
-## Questions
-
-These are the two questions we want to answer.
-
-1.  What characteristics of the chocolate make up the most successful chocolate bar in reviews?
-
-2.  How do expert reviews change over time for each company? there reviews are very different
-
-Potential Question: Are the differences we found in chocolate companies explain differences in reviews?
-
-## Analysis plan
-
-1.  In visualizing the first plot of question (1), we plan to create line plots by year that show the relationship between the cocoa percentage of the chocolate bar and their ratings. This visualization will help us understand how the preference in cocoa percentage level has changed over the years from 2006 to 2017. In creating the variable with year information that will be used in faceting the plots, we will be grouping the year information provided in `review_date` in two's and will create a new character variable using mutate function with conditional arguments that represents the assigned years (e.g. "2006 \~ 2007,"2008 \~ 2009", etc). The variable will then be factored to be in chronological order. For the plot, our x-axis variable is the year and the y-axis variable is the cocoa percentage. The plot will be faceted into 6 time periods assigned within 2006 \~ 2017. Since we would only have a single line in each of the faceted grids, we will modify the color as well as the thickness (size) of the line for better readability.
-
 ```{r}
 #| label: merging-data
 #| warning: false
@@ -103,6 +85,27 @@ chocolate_merged <- chocolate |>
 setdiff(chocolate_merged$country, con2cont$country)
 ```
 
+## Why we chose the chocolate dataset
+
+We chose this dataset because we believe it had a variety of interesting variables to look at in relationship to the rating the chocolate bar was given. We were especially intrigued by the dataset containing both time and geospatial data. We believe that this will allow us to make informative and visually pleasing graphics. We also all love chocolate and want to understand what makes chocolate successful.
+
+## Questions
+
+These are the two questions we want to answer.
+
+1.  What characteristics of the chocolate make up the most successful chocolate bar in reviews?
+
+2.  How do expert reviews change over time for each company? there reviews are very different
+
+Potential Question: Are the differences we found in chocolate companies explain differences in reviews?
+
+## Analysis plan
+
+1.  In visualizing the first plot of question (1), we plan to create line plots by year that show the relationship between the cocoa percentage of the chocolate bar and their ratings. This visualization will help us understand how the preference in cocoa percentage level has changed over the years from 2006 to 2017. In creating the variable with year information that will be used in faceting the plots, we will be grouping the year information provided in `review_date` in two's and will create a new character variable using mutate function with conditional arguments that represents the assigned years (e.g. "2006 \~ 2007,"2008 \~ 2009", etc). The variable will then be factored to be in chronological order. For the plot, our x-axis variable is the year and the y-axis variable is the cocoa percentage. The plot will be faceted into 6 time periods assigned within 2006 \~ 2017. Since we would only have a single line in each of the faceted grids, we will modify the color as well as the thickness (size) of the line for better readability.
+
+
 Our second plot will be similar to the first plot in that it will also be exploring how the preference for a certain coffee bean characteristic has changed over time. The plot will be looking at the relationship between the company location/origin and their review ratings for each of the year groups created in completing the first plot. Through this plot, we will be able to better understand which continental group of companies are preferred over time. In order to do this, we plan to implement stacked bar plots for each respective faceted year using geom_bar() function from ggplot2. To group the company locations according to their continents, I used an external dataset named "countryContinent.csv" to map the location data to their continents. I proceeded with data cleaning above using mutate() function to fix typos as well as different nomenclature for country names and left-joined the external dataset by the country names to map the continent information. Then similar to the faceting year variable, we will group the review ratings in 0.5 intervals ("0.0 \~ 0.5", "0.5 \~ 1.0") where the lower bound is exclusive with the exception of the first group. For our plot, we will count the number of ratings for each continent where the companies are located in and accumulate the count of continents for each level of rating using the stacked bar plots. Hence, the x-axis variable will be each review rating level and the y-axis variable will be the count of continents. We will differentiate the continents by using individual colors for easier readability.
 
-2.  To answer this question we will plot chocolate bar review scores against various explanatory variables. The first plot we will make will show the effect of cocoa percentage compared to reviews. We will plot the cocoa percentage on the x-axis vs the review score on the y-axis for the 10 most popular companies. This will demonstrate the preference for cocoa percentage among chocolate bar reviewers and also highlight if trends differ between the popular companies. The second plot we will make will show the spatial relationship between the preferences for cocoa beans. This plot will be a world map that colors country based on the average rating for bars that contain beans originated from that country. This will be an interesting and athletically pleasing visualization to demonstrate spatial relations between the preferences of bean origins.
+2.  To answer this question we will plot chocolate bar review scores against various explanatory variables. The first plot we will make will show the effect of cocoa percentage compared to reviews on a scatterplot. We will plot the cocoa percentage on the x-axis vs the review score on the y-axis for the 10 most popular companies. This will demonstrate the preference for cocoa percentage among chocolate bar reviewers and also highlight if trends differ between the popular companies. 
+
+The second plot we will make will show the spatial relationship between the preferences for cocoa beans. This plot will be a world map that colors country based on the average rating for bars that contain beans originated from that country. This will be an interesting and aesthetically pleasing visualization to demonstrate spatial relations between the preferences of bean origins.
