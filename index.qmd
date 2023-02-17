@@ -30,6 +30,28 @@ editor: visual
 
 (2-3 code blocks, 2 figures, text/code comments as needed): In this section, provide the code that generates your plots. Use scale functions to provide nice axis labels and guides. You are welcome to use theme functions to customize the appearance of your plot, but you are not required to do so. All plots must be made with **ggplot2**. Do not use base R or lattice plotting functions.
 
+```{r}
+chocolate_merged1 <- chocolate_merged |>
+  mutate(
+    year_even = case_when(
+      review_date == 2006 | review_date == 2007 ~ "2006",
+      review_date == 2008 | review_date == 2009 ~ "2008",
+      review_date == 2010 | review_date == 2011 ~ "2010",
+      review_date == 2012 | review_date == 2013 ~ "2012",
+      review_date == 2014 | review_date == 2015 ~ "2014",
+      review_date == 2016 | review_date == 2017 ~ "2016"
+    )
+  ) |>
+  group_by(year_even, cocoa_percent) |>
+  mutate(avg_rating = mean(rating),
+         cocoa_percent = as.numeric(sub("%", "", cocoa_percent))) 
+
+ggplot(chocolate_merged1, mapping = aes(x = cocoa_percent, y = avg_rating)) +
+  geom_line() +
+  geom_smooth(se = FALSE) +
+  facet_wrap( ~ year_even)
+```
+
 ### Discussion
 
 (1-3 paragraphs): In the Discussion section, interpret the results of your analysis. Identify any trends revealed (or not revealed) by the plots. Speculate about why the data looks the way it does.
