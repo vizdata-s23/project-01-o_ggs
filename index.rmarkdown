@@ -24,7 +24,6 @@ world <- map_data("world")
 
 ```
 
-
 ```{r}
 #| label: data-cleaning
 
@@ -70,6 +69,7 @@ chocolate_merged <- chocolate |>
 ```
 
 
+
 ## Abstract
 
 (1 paragraph): In this project, we aim to explore what characteristics (as identified by experts) of chocolate bars lead to the most successful chocolate bars and how expert opinions of these characteristics have changed over time.
@@ -104,6 +104,7 @@ To answer what characteristics lead to the most successful chocolate bars we wil
 (2-3 code blocks, 2 figures, text/code comments as needed): In this section, provide the code that generates your plots. Use scale functions to provide nice axis labels and guides. You are welcome to use theme functions to customize the appearance of your plot, but you are not required to do so. All plots must be made with **ggplot2**. Do not use base R or lattice plotting functions.
 
 Dani's Plot
+
 ```{r}
 
 #| label: plot1.1
@@ -148,6 +149,7 @@ ggplot(choc_by_company_local, aes(x = cocoa_percent, y = rating, color = company
 
 ```
 
+
 ### Discussion
 
 (1-3 paragraphs): In the Discussion section, interpret the results of your analysis. Identify any trends revealed (or not revealed) by the plots. Speculate about why the data looks the way it does.
@@ -165,6 +167,7 @@ ggplot(choc_by_company_local, aes(x = cocoa_percent, y = rating, color = company
 ### Analysis
 
 (2-3 code blocks, 2 figures, text/code comments as needed): In this section, provide the code that generates your plots. Use scale functions to provide nice axis labels and guides. You are welcome to use theme functions to customize the appearance of your plot, but you are not required to do so. All plots must be made with **ggplot2**. Do not use base R or lattice plotting functions.
+
 
 ```{r}
 #| label: plot2.victoria
@@ -199,7 +202,9 @@ ggplot(chocolate_merged1, mapping = aes(x = cocoa_percent, y = avg_rating)) +
 
 ```
 
+
 Q2 - Plot 2 (Minwoo)
+
 
 ```{r}
 chocolate_merged1 <- chocolate_merged1 |>
@@ -258,6 +263,8 @@ ggplot(chocolate_merged1, aes(x = factor(rating_bin), fill = continent)) +
   labs(x = "Rating", y = "Percentage", title = "Proportion of Continents For Each Rating Group", subtitle = "By year, from 2006 to 2017")
 ```
 
+
 ### Discussion
 
 (1-3 paragraphs): In the Discussion section, interpret the results of your analysis. Identify any trends revealed (or not revealed) by the plots. Speculate about why the data looks the way it does.
+
