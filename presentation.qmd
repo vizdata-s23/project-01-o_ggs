@@ -22,6 +22,7 @@ library(tidyverse)
 library(tidymodels)
 library(palmerpenguins)
 library(gt)
+library(janitor)
 ```
 
 ```{r}
@@ -82,6 +83,7 @@ con2cont <- con2cont |>
 
 ```{r}
 #| label: data-merging
+
 chocolate_merged <- chocolate |>
   left_join(con2cont,
             multiple = "all")
@@ -91,7 +93,7 @@ world_df <- left_join(
   chocolate |>
     group_by(broad_bean_origin) |>
     summarise(rating = mean(rating)),
-  by = c("region" = "broad_bean_origin")
+  by = c("region" = "broad_bean_origin"))
 
 ```
 
