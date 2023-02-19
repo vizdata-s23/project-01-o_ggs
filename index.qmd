@@ -20,7 +20,6 @@ chocolate <- read_csv("data/flavors_of_cacao.csv")
 con2cont <- read_csv("data/countryContinent.csv")
 
 world <- map_data("world")
-
 ```
 
 
