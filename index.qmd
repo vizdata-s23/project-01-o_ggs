@@ -49,8 +49,9 @@ chocolate <- chocolate |>
       company_location == "Eucador" ~ "Ecuador",
       TRUE ~ company_location
     ),
-    cocoa_percent = as.numeric(sub("%", "", cocoa_percent)
-    ))
+    cocoa_percent = as.numeric(sub("%", "", cocoa_percent))
+    )
+glimpse(chocolate)
 
 con2cont <- con2cont |>
   select(country, continent)
@@ -104,25 +105,29 @@ To answer what characteristics lead to the most successful chocolate bars we wil
 
 Dani's Plot
 ```{r}
-#| warning: false
-#| message: false
+
 #| label: plot1.1
 
-choc_by_cocoa_company <- chocolate_merged |>
-  group_by(cocoa_percent, company_maker_if_known) |>
-  summarise(avg_rating = mean(rating),
-         .groups = "drop") 
+chocolate_merged |>
+  count(company_maker_if_known) |>
+  arrange(desc(n))
 
-# ggplot(chocolate_merged1, mapping = aes(x = cocoa_percent, y = avg_rating)) +
-#   geom_line() +
-#   geom_smooth(aes(color = year_even), se = FALSE, show.legend = FALSE) +
-#   facet_grid(year_even ~., scales = "free_x") + 
-#   theme_minimal() + 
-#   theme(aspect.ratio = 1/8) +
-#   scale_y_continuous(breaks = c(1,2,3,4,5)) +
-#   labs(x = "Percentage of Cocoa in Chocolate", 
-#        y = "Average Rating", title = "How well Cocoa Percentages are Rated", 
-#        subtitle = "By year, from 2006 to 2017", color = "Year")
+choc_by_cocoa_company <- chocolate_merged |>
+  filter(
+    company_maker_if_known %in% c(
+      "Soma", "Bonnat", "Fresco", "Pralus", "A. Morin", "Arete",
+      "Domori", "Guittard", "Valrhona", "Hotel Chocolat (Coppeneur)"
+    ))
+
+choc_by_cocoa_company
+
+ggplot(choc_by_cocoa_company, aes(x = cocoa_percent, y = rating, color = company_maker_if_known)) +
+  geom_point()+
+  geom_smooth() +
+  theme_minimal() +
+  labs(x = "Percentage of Cocoa in Chocolate Bar",
+       y = "Rating", title = "Cocoa Percentages Vs Ratings",
+       subtitle = "Top ten chocolate companies in number of reviews", color = "Chocolate Company")
 
 ```
 
