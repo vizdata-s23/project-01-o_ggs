@@ -42,7 +42,7 @@ knitr::opts_chunk$set(
 ```{r}
 #| label: load-data
 #| include: false
-chocolate <- read_csv("data/flavors_of_cacao[1].csv")
+chocolate <- read_csv("data/flavors_of_cacao.csv")
 
 con2cont <- read_csv("data/countryContinent.csv")
 

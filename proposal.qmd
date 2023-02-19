@@ -16,7 +16,7 @@ library(tidyverse)
 library(janitor)
 library(maps)
 
-chocolate <- read_csv("data/flavors_of_cacao[1].csv")
+chocolate <- read_csv("data/flavors_of_cacao.csv")
 
 chocolate <- chocolate |>
   clean_names()
