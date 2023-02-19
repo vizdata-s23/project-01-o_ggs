@@ -6,6 +6,59 @@ format: html
 editor: visual
 ---
 
+```{r}
+#| label: load-pkgs-data
+#| warning: false
+#| message: false
+
+
+library(tidyverse)
+library(janitor)
+library(maps)
+
+chocolate <- read_csv("data/flavors_of_cacao[1].csv")
+
+chocolate <- chocolate |>
+  clean_names()
+
+con2cont <- read_csv("data/countryContinent.csv")
+
+
+world <- map_data("world")
+
+chocolate <- chocolate |>
+  mutate(
+    company_location_country = case_when(
+      company_location == "U.S.A." ~ "United States of America",
+      company_location == "U.K." ~ "United Kingdom of Great Britain and Northern Ireland",
+      company_location == "Wales" ~ "United Kingdom of Great Britain and Northern Ireland",
+      company_location == "Scotland" ~ "United Kingdom of Great Britain and Northern Ireland",
+      company_location == "Russia" ~ "Russian Federation",
+      company_location == "South Korea" ~ "Korea (Republic of)",
+      company_location == "Amsterdam" ~ "Netherlands",
+      company_location == "Sao Tome" ~ "Sao Tome and Principe",
+      company_location == "Bolivia" ~ "Bolivia (Plurinational State of)",
+      company_location == "Venezuela" ~ "Venezuela (Bolivarian Republic of)",
+      company_location == "St. Lucia" ~ "Saint Lucia",
+      company_location == "Vietnam" ~ "Viet Nam",
+      company_location == "Domincan Republic" ~ "Dominican Republic",
+      company_location == "Niacragua" ~ "Nicaragua",
+      company_location == "Eucador" ~ "Ecuador",
+      TRUE ~ company_location
+    )
+  )
+
+con2cont <- con2cont |>
+  select(country, continent)
+
+con2cont <- con2cont |>
+  rename(company_location_country = country)
+
+chocolate_merged <- chocolate |>
+  left_join(con2cont,
+            multiple = "all")
+```
+
 ## Abstract
 
 (1 paragraph): Project abstract.
@@ -31,6 +84,9 @@ editor: visual
 (2-3 code blocks, 2 figures, text/code comments as needed): In this section, provide the code that generates your plots. Use scale functions to provide nice axis labels and guides. You are welcome to use theme functions to customize the appearance of your plot, but you are not required to do so. All plots must be made with **ggplot2**. Do not use base R or lattice plotting functions.
 
 ```{r}
+#| warning: false
+#| message: false
+
 chocolate_merged1 <- chocolate_merged |>
   mutate(
     year_even = case_when(
@@ -48,8 +104,13 @@ chocolate_merged1 <- chocolate_merged |>
 
 ggplot(chocolate_merged1, mapping = aes(x = cocoa_percent, y = avg_rating)) +
   geom_line() +
-  geom_smooth(se = FALSE) +
-  facet_wrap( ~ year_even)
+  geom_smooth(aes(color = year_even), se = FALSE) +
+  facet_grid(year_even ~., scales = "free_y") + 
+  theme_minimal() + 
+  labs(x = "Percentage of Cocoa in Chocolate", 
+       y = "Average Rating", title = "How well Chocolate Percentages are Rated", 
+       subtitle = "By year, from 2006 to 2017", color = "Year")
+
 ```
 
 ### Discussion
