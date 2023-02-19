@@ -102,6 +102,7 @@ To answer what characteristics lead to the most successful chocolate bars we wil
 
 (2-3 code blocks, 2 figures, text/code comments as needed): In this section, provide the code that generates your plots. Use scale functions to provide nice axis labels and guides. You are welcome to use theme functions to customize the appearance of your plot, but you are not required to do so. All plots must be made with **ggplot2**. Do not use base R or lattice plotting functions.
 
+Dani's Plot
 ```{r}
 #| warning: false
 #| message: false
@@ -174,6 +175,65 @@ ggplot(chocolate_merged1, mapping = aes(x = cocoa_percent, y = avg_rating)) +
        y = "Average Rating", title = "How well Cocoa Percentages are Rated", 
        subtitle = "By year, from 2006 to 2017", color = "Year")
 
+```
+
+Q2 - Plot 2 (Minwoo)
+
+```{r}
+chocolate_merged1 <- chocolate_merged1 |>
+  mutate(
+    rating_bin = case_when(
+      rating >= 0.00 & rating <= 0.50 ~ "0.00 ~ 0.50",
+      rating > 0.50 & rating <= 1.00 ~ "0.50 ~ 1.00",
+      rating > 1.00 & rating <= 1.50 ~ "1.00 ~ 1.50",
+      rating > 1.50 & rating <= 2.00 ~ "1.50 ~ 2.00",
+      rating > 2.00 & rating <= 2.50 ~ "2.00 ~ 2.50",
+      rating > 2.50 & rating <= 3.00 ~ "2.50 ~ 3.00",
+      rating > 3.00 & rating <= 3.50 ~ "3.00 ~ 3.50",
+      rating > 3.50 & rating <= 4.00 ~ "3.50 ~ 4.00",
+      rating > 4.00 & rating <= 4.50 ~ "4.00 ~ 4.50",
+      rating > 4.50 & rating <= 5.00 ~ "4.50 ~ 5.00"
+    )
+  )
+
+ggplot(chocolate_merged1, aes(x = factor(rating_bin), fill = continent)) +
+  geom_bar(position="fill", stat = "count") +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  coord_flip() +
+  facet_grid(. ~ year_even) +
+  theme_minimal() +
+  scale_fill_viridis_d() +
+  guides(fill = guide_legend(title = "Continent")) +
+  theme(panel.spacing = unit(1, "lines"), panel.border = element_rect(color = "black", fill = NA, size = 0.05)) +
+  labs(x = "Rating", y = "Percentage", title = "Proportion of Continents For Each Rating Group", subtitle = "By year, from 2006 to 2017")
+```
+
+```{r}
+chocolate_merged1 <- chocolate_merged1 |>
+  mutate(
+    rating_bin = case_when(
+      rating >= 0.00 & rating <= 0.50 ~ "0.00 ~ 0.50",
+      rating > 0.50 & rating <= 1.00 ~ "0.50 ~ 1.00",
+      rating > 1.00 & rating <= 1.50 ~ "1.00 ~ 1.50",
+      rating > 1.50 & rating <= 2.00 ~ "1.50 ~ 2.00",
+      rating > 2.00 & rating <= 2.50 ~ "2.00 ~ 2.50",
+      rating > 2.50 & rating <= 3.00 ~ "2.50 ~ 3.00",
+      rating > 3.00 & rating <= 3.50 ~ "3.00 ~ 3.50",
+      rating > 3.50 & rating <= 4.00 ~ "3.50 ~ 4.00",
+      rating > 4.00 & rating <= 4.50 ~ "4.00 ~ 4.50",
+      rating > 4.50 & rating <= 5.00 ~ "4.50 ~ 5.00"
+    )
+  )
+
+ggplot(chocolate_merged1, aes(x = factor(rating_bin), fill = continent)) +
+  geom_bar(position="fill", stat = "count") +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  facet_grid(year_even ~ .) +
+  theme_minimal() +
+  scale_fill_viridis_d() +
+  guides(fill = guide_legend(title = "Continent")) +
+  theme(panel.spacing = unit(1, "lines"), panel.border = element_rect(color = "black", fill = NA, size = 0.05)) +
+  labs(x = "Rating", y = "Percentage", title = "Proportion of Continents For Each Rating Group", subtitle = "By year, from 2006 to 2017")
 ```
 
 ### Discussion
