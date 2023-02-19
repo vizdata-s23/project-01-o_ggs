@@ -95,7 +95,7 @@ Our other datasets include `world` and `con2cont` and they are primarily used in
 
 (1-2 paragraphs): Introduction to the question and what parts of the dataset are necessary to answer the question. Also discuss why you're interested in this question.
 
-We aim to explore what characteristics of chocolate bars are the most successful as rated out of 5 stars by experts. This information is important for consumers so when they are in the candy aisle at grocery stores faced with dozens of options, they can use these findings to make a well-informed decision about which chocolate they should buy. This is also important for chocolate makers to understand so that they can use this information to improve their own chocolate and learn from their competitors using third party, neutral reviews by chocolate experts.
+We aim to explore what characteristics of chocolate bars are the most successful as rated out of 5 stars by experts. This information is important for consumers so when they are in the candy aisle at grocery stores faced with dozens of options, they can use these findings to make a well-informed decision about which chocolate they should buy. This is also important for chocolate makers to understand so that they can use this information to improve their own chocolate given the location preferences.
 
 To answer what characteristics lead to the most successful chocolate bars we will use the variables that describe cocoa percentage in the chocolate, the various companies who are included in this dataset, the origin of the cocoa beans that are used to produce that chocolate bar, and the expert reviews of the chocolate bars.
 
@@ -109,48 +109,29 @@ To answer what characteristics lead to the most successful chocolate bars we wil
 (2-3 code blocks, 2 figures, text/code comments as needed): In this section, provide the code that generates your plots. Use scale functions to provide nice axis labels and guides. You are welcome to use theme functions to customize the appearance of your plot, but you are not required to do so. All plots must be made with **ggplot2**. Do not use base R or lattice plotting functions.
 
 Dani's Plot
+
 ```{r}
-
-#| label: plot1.1
-
-chocolate_merged |>
-  count(company_location) |>
-  arrange(desc(n))
-
-
-choc_by_cocoa_company <- chocolate_merged |>
-  filter(
-    company_maker_if_known %in% c(
-      "Soma", "Bonnat", "Fresco", "Pralus", "A. Morin", "Arete",
-      "Domori", "Guittard", "Valrhona", "Hotel Chocolat (Coppeneur)"
-    ))
-
-choc_by_cocoa_company
-
-ggplot(choc_by_cocoa_company, aes(x = cocoa_percent, y = rating, color = company_maker_if_known)) +
-  geom_point()+
-  geom_smooth() +
-  theme_minimal() +
-  labs(x = "Percentage of Cocoa in Chocolate Bar",
-       y = "Rating", title = "Cocoa Percentages Vs Ratings",
-       subtitle = "Top ten chocolate companies in number of reviews", color = "Chocolate Company")
-
 choc_by_company_local <- chocolate_merged |>
   filter(
     company_location %in% c(
       "U.S.A.", "France", "Canada", "U.K.", "Italy", "Ecuador",
       "Australia", "Belgium", "Switzerland", "Germany"
-    ))
+  )) |>
+  mutate(cocoa_percentage = cocoa_percent /100)
 
-ggplot(choc_by_company_local, aes(x = cocoa_percent, y = rating, color = company_location)) +
-  geom_point(alpha =0.2)+
+ggplot(choc_by_company_local,
+       aes(x = cocoa_percentage, y = rating, color = company_location)) +
+  geom_point(alpha = 0.3) +
   geom_smooth(se = FALSE) +
-  scale_y_continuous(trans='log2')+
+  scale_x_continuous(labels = scales::percent_format(accuracy =1)) +
   theme_minimal() +
-  labs(x = "Percentage of Cocoa in Chocolate Bar",
-       y = "Rating", title = "Cocoa Percentages Vs Ratings",
-       subtitle = "Top ten chocolate companies in number of reviews", color = "Chocolate Company")
-
+  labs(
+    x = "Percentage of Cocoa",
+    y = "Rating (From 1-5)",
+    title = "Cocoa Percentages Vs Ratings",
+    subtitle = "Top ten chocolate companies in number of reviews",
+    color = "Chocolate Company Locations"
+  )
 ```
 
 ### Discussion
@@ -192,8 +173,8 @@ chocolate_merged1 <- chocolate_merged |>
          cocoa_percent = as.numeric(sub("%", "", cocoa_percent))) 
 
 ggplot(chocolate_merged1, mapping = aes(x = cocoa_percent, y = avg_rating)) +
-  geom_line() +
-  geom_smooth(aes(color = year_even), se = FALSE, show.legend = FALSE) +
+  geom_point() +
+  geom_smooth(aes(color = year_even), method  = "lm", se = FALSE, show.legend = FALSE) +
   facet_grid(year_even ~., scales = "free_x") + 
   theme_minimal() + 
   theme(aspect.ratio = 1/8) +
