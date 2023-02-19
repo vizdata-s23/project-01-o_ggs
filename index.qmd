@@ -90,12 +90,12 @@ chocolate_merged <- chocolate |>
 chocolate_merged1 <- chocolate_merged |>
   mutate(
     year_even = case_when(
-      review_date == 2006 | review_date == 2007 ~ "2006",
-      review_date == 2008 | review_date == 2009 ~ "2008",
-      review_date == 2010 | review_date == 2011 ~ "2010",
-      review_date == 2012 | review_date == 2013 ~ "2012",
-      review_date == 2014 | review_date == 2015 ~ "2014",
-      review_date == 2016 | review_date == 2017 ~ "2016"
+      review_date == 2006 | review_date == 2007 ~ "2006-7",
+      review_date == 2008 | review_date == 2009 ~ "2008-9",
+      review_date == 2010 | review_date == 2011 ~ "2010-11",
+      review_date == 2012 | review_date == 2013 ~ "2012-13",
+      review_date == 2014 | review_date == 2015 ~ "2014-15",
+      review_date == 2016 | review_date == 2017 ~ "2016-17"
     )
   ) |>
   group_by(year_even, cocoa_percent) |>
@@ -104,11 +104,13 @@ chocolate_merged1 <- chocolate_merged |>
 
 ggplot(chocolate_merged1, mapping = aes(x = cocoa_percent, y = avg_rating)) +
   geom_line() +
-  geom_smooth(aes(color = year_even), se = FALSE) +
-  facet_grid(year_even ~., scales = "free_y") + 
+  geom_smooth(aes(color = year_even), se = FALSE, show.legend = FALSE) +
+  facet_grid(year_even ~., scales = "free_x") + 
   theme_minimal() + 
+  theme(aspect.ratio = 1/8) +
+  scale_y_continuous(breaks = c(1,2,3,4,5)) +
   labs(x = "Percentage of Cocoa in Chocolate", 
-       y = "Average Rating", title = "How well Chocolate Percentages are Rated", 
+       y = "Average Rating", title = "How well Cocoa Percentages are Rated", 
        subtitle = "By year, from 2006 to 2017", color = "Year")
 
 ```
