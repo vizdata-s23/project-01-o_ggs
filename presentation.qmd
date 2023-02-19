@@ -1,7 +1,7 @@
 ---
 title: "Project title"
 subtitle: "STA/ISS 313 - Spring 2023 - Project 1"
-author: "Team Name"
+author: "The O_GGS"
 title-slide-attributes:
   data-background-image: images/watercolour_sys02_img34_teacup-ocean.jpg
   data-background-size: stretch
@@ -41,8 +41,58 @@ knitr::opts_chunk$set(
 ```{r}
 #| label: load-data
 #| include: false
+chocolate <- read_csv("data/flavors_of_cacao[1].csv")
 
-# Load your data here
+con2cont <- read_csv("data/countryContinent.csv")
+
+world <- map_data("world")
+```
+
+```{r}
+#| label: data-cleaning
+chocolate <- chocolate |>
+  clean_names() |>
+  mutate(
+    company_location_country = case_when(
+      company_location == "U.S.A." ~ "United States of America",
+      company_location == "U.K." ~ "United Kingdom of Great Britain and Northern Ireland",
+      company_location == "Wales" ~ "United Kingdom of Great Britain and Northern Ireland",
+      company_location == "Scotland" ~ "United Kingdom of Great Britain and Northern Ireland",
+      company_location == "Russia" ~ "Russian Federation",
+      company_location == "South Korea" ~ "Korea (Republic of)",
+      company_location == "Amsterdam" ~ "Netherlands",
+      company_location == "Sao Tome" ~ "Sao Tome and Principe",
+      company_location == "Bolivia" ~ "Bolivia (Plurinational State of)",
+      company_location == "Venezuela" ~ "Venezuela (Bolivarian Republic of)",
+      company_location == "St. Lucia" ~ "Saint Lucia",
+      company_location == "Vietnam" ~ "Viet Nam",
+      company_location == "Domincan Republic" ~ "Dominican Republic",
+      company_location == "Niacragua" ~ "Nicaragua",
+      company_location == "Eucador" ~ "Ecuador",
+      TRUE ~ company_location
+    )
+  )
+
+con2cont <- con2cont |>
+  select(country, continent)
+
+con2cont <- con2cont |>
+  rename(company_location_country = country)
+```
+
+```{r}
+#| label: data-merging
+chocolate_merged <- chocolate |>
+  left_join(con2cont,
+            multiple = "all")
+
+world_df <- left_join(
+  world,
+  chocolate |>
+    group_by(broad_bean_origin) |>
+    summarise(rating = mean(rating)),
+  by = c("region" = "broad_bean_origin")
+
 ```
 
 # Using Quarto for presentations
