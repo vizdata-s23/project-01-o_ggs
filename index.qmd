@@ -5,7 +5,6 @@ author: "The O_GGS"
 format: html
 editor: visual
 ---
-
 ```{r}
 #| label: load-pkgs-data
 #| warning: false
@@ -14,6 +13,7 @@ editor: visual
 library(tidyverse)
 library(janitor)
 library(maps)
+library(viridis)
 
 chocolate <- read_csv("data/flavors_of_cacao.csv")
 
@@ -22,6 +22,13 @@ con2cont <- read_csv("data/countryContinent.csv")
 world <- map_data("world")
 ```
 
+```{r}
+#| label: setup-global-options
+opts <- options()  # save old options
+
+options(ggplot2.continuous.colour="viridis")
+options(ggplot2.continuous.fill = "viridis")
+```
 
 ```{r}
 #| label: data-cleaning
@@ -49,7 +56,6 @@ chocolate <- chocolate |>
     ),
     cocoa_percent = as.numeric(sub("%", "", cocoa_percent))
     )
-glimpse(chocolate)
 
 con2cont <- con2cont |>
   select(country, continent)
@@ -61,6 +67,7 @@ con2cont <- con2cont |>
 
 ```{r}
 #| label: merging-data
+#| message: false
 
 chocolate_merged <- chocolate |>
   left_join(con2cont,
@@ -70,7 +77,7 @@ chocolate_merged <- chocolate |>
 
 ## Abstract
 
-(1 paragraph): In this project, we aim to explore what characteristics (as identified by experts) of chocolate bars lead to the most successful chocolate bars and how expert opinions of these characteristics have changed over time.
+In this project, we aim to explore what characteristics (as identified by experts) of chocolate bars lead to the most successful chocolate bars and how expert opinions of these characteristics have changed over time. INSERT RESULTS HERE
 
 ------------------------------------------------------------------------
 
@@ -78,9 +85,9 @@ chocolate_merged <- chocolate |>
 
 (1-2 paragraphs): Brief introduction to the dataset. You may repeat some of the information about the dataset provided in the introduction to the dataset on the TidyTuesday repository, paraphrasing on your own terms. Imagine that your project is a standalone document and the grader has no prior knowledge of the dataset.
 
-Our main dataset is the `chocolate` dataset. It contains information about chocolate bars and reviews written by experts. It contains `r ncol(chocolate)` variables with `r nrow(chocolate)` observations. This dataset contains information about the company who makes the chocolate bars, the percent of cocoa, where the company is located, bean type & origin, expert review (out of 5 stars), and the date and reference number for each review.
+Our main dataset is the `chocolate` dataset. It contains information about chocolate bars and reviews written by experts. It contains `r ncol(chocolate)` variables with `r nrow(chocolate)` observations. This dataset contains information about the company who makes the chocolate bars, the percent of cocoa, where the company is located, bean type & origin, expert review (out of 5 stars), and the date and reference number for each review. The original data source can be found [here](https://www.kaggle.com/code/willcanniford/chocolate-bar-ratings-extensive-eda/data) and more in depth information can be found in our data dictionary located in `data/README.md` in this repository. 
 
-The original data source can be found [here](https://www.kaggle.com/code/willcanniford/chocolate-bar-ratings-extensive-eda/data) and more in depth information can be found in our data dictionary located in `data/README.md` in this repository. We chose this dataset because we are all chocolate lovers who are interested in what makes chocolate delicious and award-winning.
+Our other datasets include `world` and `con2cont` and they are primarily used in our plots that include geospatial variables....
 
 ## Question 1: What characteristics lead to the most successful chocolate bars?
 
