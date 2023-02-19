@@ -194,18 +194,31 @@ chocolate_merged1 <- chocolate_merged |>
   ) |>
   group_by(year_even, cocoa_percent) |>
   mutate(avg_rating = mean(rating),
-         cocoa_percent = as.numeric(sub("%", "", cocoa_percent))) 
+         cocoa_percent = as.numeric(sub("%", "", cocoa_percent))) |>
+  mutate(cocoa_percent = cocoa_percent / 100)
 
 ggplot(chocolate_merged1, mapping = aes(x = cocoa_percent, y = avg_rating)) +
   geom_point() +
-  geom_smooth(aes(color = year_even), method  = "lm", se = FALSE, show.legend = FALSE) +
-  facet_grid(year_even ~., scales = "free_x") + 
-  theme_minimal() + 
-  theme(aspect.ratio = 1/8) +
-  scale_y_continuous(breaks = c(1,2,3,4,5)) +
-  labs(x = "Percentage of Cocoa in Chocolate", 
-       y = "Average Rating", title = "How well Cocoa Percentages are Rated", 
-       subtitle = "By year, from 2006 to 2017", color = "Year")
+  geom_smooth(
+    aes(color = year_even),
+    method  = "lm",
+    se = FALSE,
+    show.legend = FALSE
+  ) +
+  facet_grid(year_even ~ ., scales = "free_x") +
+  theme_minimal() +
+  theme(aspect.ratio = 1 / 8) +
+  scale_y_continuous(breaks = c(1, 2, 3, 4, 5)) +
+  scale_x_continuous(breaks = c(.4, .5, .6, .7, .8, .9, 1),
+                     labels = scales::percent_format()) +
+  scale_color_viridis_d() +
+  labs(
+    x = "Percentage of Cocoa in Chocolate",
+    y = "Average Rating",
+    title = "How well Cocoa Percentages are Rated",
+    subtitle = "By year, from 2006 to 2017",
+    color = "Year"
+  )
 
 ```
 
