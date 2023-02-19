@@ -5,6 +5,7 @@ author: "The O_GGS"
 format: html
 editor: visual
 ---
+
 ```{r}
 #| label: load-pkgs-data
 #| warning: false
@@ -74,7 +75,6 @@ chocolate_merged <- chocolate |>
             multiple = "all")
 ```
 
-
 ## Abstract
 
 In this project, we aim to explore what characteristics (as identified by experts) of chocolate bars lead to the most successful chocolate bars and how expert opinions of these characteristics have changed over time. INSERT RESULTS HERE
@@ -85,7 +85,7 @@ In this project, we aim to explore what characteristics (as identified by expert
 
 (1-2 paragraphs): Brief introduction to the dataset. You may repeat some of the information about the dataset provided in the introduction to the dataset on the TidyTuesday repository, paraphrasing on your own terms. Imagine that your project is a standalone document and the grader has no prior knowledge of the dataset.
 
-Our main dataset is the `chocolate` dataset. It contains information about chocolate bars and reviews written by experts. It contains `r ncol(chocolate)` variables with `r nrow(chocolate)` observations. This dataset contains information about the company who makes the chocolate bars, the percent of cocoa, where the company is located, bean type & origin, expert review (out of 5 stars), and the date and reference number for each review. The original data source can be found [here](https://www.kaggle.com/code/willcanniford/chocolate-bar-ratings-extensive-eda/data) and more in depth information can be found in our data dictionary located in `data/README.md` in this repository. 
+Our main dataset is the `chocolate` dataset. It contains information about chocolate bars and reviews written by experts. It contains `r ncol(chocolate)` variables with `r nrow(chocolate)` observations. This dataset contains information about the company who makes the chocolate bars, the percent of cocoa, where the company is located, bean type & origin, expert review (out of 5 stars), and the date and reference number for each review. The original data source can be found [here](https://www.kaggle.com/code/willcanniford/chocolate-bar-ratings-extensive-eda/data) and more in depth information can be found in our data dictionary located in `data/README.md` in this repository.
 
 Our other datasets include `world` and `con2cont` and they are primarily used in our plots that include geospatial variables....
 
@@ -99,7 +99,6 @@ We aim to explore what characteristics of chocolate bars are the most successful
 
 To answer what characteristics lead to the most successful chocolate bars we will use the variables that describe cocoa percentage in the chocolate, the various companies who are included in this dataset, the origin of the cocoa beans that are used to produce that chocolate bar, and the expert reviews of the chocolate bars.
 
-
 ### Approach
 
 (1-2 paragraphs): Describe what types of plots you are going to make to address your question. For each plot, provide a clear explanation as to why this plot (e.g. boxplot, barplot, histogram, etc.) is best for providing the information you are asking about. The two plots should be of different types, and at least one of the two plots needs to use either color mapping or facets.
@@ -109,6 +108,7 @@ To answer what characteristics lead to the most successful chocolate bars we wil
 (2-3 code blocks, 2 figures, text/code comments as needed): In this section, provide the code that generates your plots. Use scale functions to provide nice axis labels and guides. You are welcome to use theme functions to customize the appearance of your plot, but you are not required to do so. All plots must be made with **ggplot2**. Do not use base R or lattice plotting functions.
 
 Dani's Plot
+
 ```{r}
 
 #| label: plot1.1
@@ -151,6 +151,29 @@ ggplot(choc_by_company_local, aes(x = cocoa_percent, y = rating, color = company
        y = "Rating", title = "Cocoa Percentages Vs Ratings",
        subtitle = "Top ten chocolate companies in number of reviews", color = "Chocolate Company")
 
+```
+
+```{r}
+world_df <- left_join(world, chocolate|>
+                        group_by(broad_bean_origin)|>
+                        summarise(rating = mean(rating)), by = c("region" ="broad_bean_origin"))
+
+label_df <- world_df |>
+  filter(!is.na(rating)) |>
+  group_by(region) |>
+  summarise(rating = mean(rating), long = mean(long), lat = mean(lat), .groups = "drop")
+
+world_df|>
+  filter(region!="Antarctica")|>
+  ggplot() +
+  aes(x = long, y = lat, group = group, fill = rating) +
+  geom_polygon(color="black", size = 0.2) +
+  scale_fill_gradient(limits = c(3, 3.5)) +
+  theme_void()+
+  theme(panel.background = element_rect(fill = "light blue")) +
+  geom_text(data = label_df, aes(x = long, y = lat, label = region), size = 3, 
+            hjust = 0.5, vjust = 0.5, inherit.aes = FALSE,
+            color = "white", fontface = "bold", check_overlap = TRUE)
 ```
 
 ### Discussion
