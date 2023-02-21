@@ -10,6 +10,8 @@ format: revealjs
 editor: visual
 execute:
   echo: false
+  message: false
+  warning: false
 ---
 
 ```{r}
