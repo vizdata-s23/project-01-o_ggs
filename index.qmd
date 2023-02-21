@@ -143,7 +143,7 @@ chocolate_merged |>
 ```
 
 ```{r}
-#| label: plot 1.2
+#| label: fig-jason
 
 world_df <- left_join(
   world,
@@ -211,7 +211,7 @@ To create the first plot, we created line plots by year that show the relationsh
 (2-3 code blocks, 2 figures, text/code comments as needed): In this section, provide the code that generates your plots. Use scale functions to provide nice axis labels and guides. You are welcome to use theme functions to customize the appearance of your plot, but you are not required to do so. All plots must be made with **ggplot2**. Do not use base R or lattice plotting functions.
 
 ```{r}
-#| label: plot2.victoria
+#| label: fig-victoria
 #| warning: false
 #| message: false
 
@@ -256,9 +256,10 @@ ggplot(chocolate_merged1, mapping = aes(x = cocoa_percent, y = avg_rating)) +
 
 ```
 
-Q2 - Plot 2 (Minwoo)
+Q2 - Plot 2 
 
 ```{r}
+#| label: fig-minwoo
 chocolate_merged1 <- chocolate_merged1 |>
   mutate(
     rating_bin = case_when(
