@@ -24,14 +24,6 @@ world <- map_data("world")
 ```
 
 ```{r}
-#| label: setup-global-options
-opts <- options()  # save old options
-
-options(ggplot2.continuous.colour="viridis")
-options(ggplot2.continuous.fill = "viridis")
-```
-
-```{r}
 #| label: data-cleaning
 
 chocolate <- chocolate |>
@@ -87,13 +79,13 @@ In this project, we aim to explore what characteristics (as identified by expert
 
 Our main dataset is the `chocolate` dataset. It contains information about chocolate bars and reviews written by experts. It contains `r ncol(chocolate)` variables with `r nrow(chocolate)` observations. This dataset contains information about the company who makes the chocolate bars, the percent of cocoa, where the company is located, bean type & origin, expert review (out of 5 stars), and the date and reference number for each review. The original data source can be found [here](https://www.kaggle.com/code/willcanniford/chocolate-bar-ratings-extensive-eda/data) and more in depth information can be found in our data dictionary located in `data/README.md` in this repository.
 
-Our other datasets include `world` and `con2cont` and they are primarily used in our plots that include geospatial variables....
+Our other datasets include `world` and `con2cont` and they are primarily used in our plots that include geospatial variables. `con2cont` maps countries to continents while the `world` dataset gives us coordinates to graph so that we can make map-like visualizations.
 
 ## Question 1: What characteristics lead to the most successful chocolate bars?
 
 ### Introduction
 
-(1-2 paragraphs): Introduction to the question and what parts of the dataset are necessary to answer the question. Also discuss why you're interested in this question.
+(1-2 paragraphs): Introduction to the question and what parts of the dataset are necessary to answer the question. Also discuss why you're interested in this question.*DELETE THIS LATER*
 
 We aim to explore what characteristics of chocolate bars are the most successful as rated out of 5 stars by experts. This information is important for consumers so when they are in the candy aisle at grocery stores faced with dozens of options, they can use these findings to make a well-informed decision about which chocolate they should buy. This is also important for chocolate makers to understand so that they can use this information to improve their own chocolate given the location preferences.
 
@@ -101,64 +93,103 @@ To answer what characteristics lead to the most successful chocolate bars we wil
 
 ### Approach
 
-(1-2 paragraphs): Describe what types of plots you are going to make to address your question. For each plot, provide a clear explanation as to why this plot (e.g. boxplot, barplot, histogram, etc.) is best for providing the information you are asking about. The two plots should be of different types, and at least one of the two plots needs to use either color mapping or facets.
+(1-2 paragraphs): Describe what types of plots you are going to make to address your question. For each plot, provide a clear explanation as to why this plot (e.g. boxplot, barplot, histogram, etc.) is best for providing the information you are asking about. The two plots should be of different types, and at least one of the two plots needs to use either color mapping or facets.*DELETE THIS LATER*
+
+#### Plot 1.1
+
+For this first plot, we wanted to vizualize how the cocoa percent in a chocolate bar affects the expert review based on where the chocolate company is located. We believe that there might be general trends for each country that lead to chocolate being more highly rated if the population preferred a specific cocoa percentage. For example, we know Americans have a strong preference for sweeter, less cocoa- filled chocolate and wanted to know if a decrease in cocoa percentage would lead to an increase in reviews. 
+
+To visualize this, we first created a scatterplot to get a general idea of the relationship between a country, their preference for cocoa, and how that might affect the rating. The points were somewhat all stacked on top of each other since a lot of observations had very similar positions. This made it hard to see overall relationships so we made the points a bit transparent to better communicate more frequent cocoa percentage and rating pairings through more concentrated colors. 
+Then we layered trend lines over our scatterplot for 8 countries that are best known for the chocolate they produce (according to outside research). We also chose these countries because they had over 30 companies who manufactured and sold their chocolate there so we thought we would get a pretty representative sample of companies for each country.
+
+#### Plot 1.2
+
+For this second plot,....
 
 ### Analysis
 
-(2-3 code blocks, 2 figures, text/code comments as needed): In this section, provide the code that generates your plots. Use scale functions to provide nice axis labels and guides. You are welcome to use theme functions to customize the appearance of your plot, but you are not required to do so. All plots must be made with **ggplot2**. Do not use base R or lattice plotting functions.
+(2-3 code blocks, 2 figures, text/code comments as needed): In this section, provide the code that generates your plots. Use scale functions to provide nice axis labels and guides. You are welcome to use theme functions to customize the appearance of your plot, but you are not required to do so. All plots must be made with **ggplot2**. Do not use base R or lattice plotting functions. *DELETE THIS LATER*
 
-Dani's Plot
 
 ```{r}
-choc_by_company_local <- chocolate_merged |>
+#| label: plot 1.1
+#| message: FALSE
+#| fig.width: 10
+#| fig.height: 11
+
+chocolate_merged |>
   filter(
     company_location %in% c(
-      "U.S.A.", "France", "Canada", "U.K.", "Italy", "Ecuador",
-      "Australia", "Belgium", "Switzerland", "Germany"
+      "U.S.A.", "France", "U.K.", "Italy", "Ecuador",
+      "Belgium", "Switzerland", "Germany"
   )) |>
-  mutate(cocoa_percentage = cocoa_percent /100)
-
-ggplot(choc_by_company_local,
-       aes(x = cocoa_percentage, y = rating, color = company_location)) +
-  geom_point(alpha = 0.3) +
+  mutate(cocoa_percentage = cocoa_percent / 100) |>
+  ggplot(aes(x = cocoa_percentage, y = rating,
+             color = company_location)) +
+  geom_point(alpha = 0.25) +
   geom_smooth(se = FALSE) +
-  scale_x_continuous(labels = scales::percent_format(accuracy =1)) +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1)) +
   theme_minimal() +
   labs(
     x = "Percentage of Cocoa",
     y = "Rating (From 1-5)",
     title = "Cocoa Percentages Vs Ratings",
-    subtitle = "Top ten chocolate companies in number of reviews",
+    subtitle = "8 Countries Best Known For Chocolate",
     color = "Chocolate Company Locations"
   )
 ```
 
 ```{r}
-world_df <- left_join(world, chocolate|>
-                        group_by(broad_bean_origin)|>
-                        summarise(rating = mean(rating)), by = c("region" ="broad_bean_origin"))
+#| label: plot 1.2
+
+world_df <- left_join(
+  world,
+  chocolate |>
+    group_by(broad_bean_origin) |>
+    summarise(rating = mean(rating)),
+  by = c("region" = "broad_bean_origin")
+)
 
 label_df <- world_df |>
   filter(!is.na(rating)) |>
   group_by(region) |>
-  summarise(rating = mean(rating), long = mean(long), lat = mean(lat), .groups = "drop")
+  summarise(
+    rating = mean(rating),
+    long = mean(long),
+    lat = mean(lat),
+    .groups = "drop"
+  )
 
-world_df|>
-  filter(region!="Antarctica")|>
+# Can you also add an informative title/subtitle that includes how to use this graph?
+world_df |>
+  filter(region != "Antarctica") |>
   ggplot() +
-  aes(x = long, y = lat, group = group, fill = rating) +
-  geom_polygon(color="black", size = 0.2) +
+  aes(x = long,
+      y = lat,
+      group = group,
+      fill = rating) +
+  geom_polygon(color = "black", size = 0.2) +
   scale_fill_gradient(limits = c(3, 3.5)) +
-  theme_void()+
-  theme(panel.background = element_rect(fill = "light blue")) +
-  geom_text(data = label_df, aes(x = long, y = lat, label = region), size = 3, 
-            hjust = 0.5, vjust = 0.5, inherit.aes = FALSE,
-            color = "white", fontface = "bold", check_overlap = TRUE)
+  theme_void() +
+  theme(panel.background = element_rect(fill = "#cbe4ff")) +
+  geom_text(
+    data = label_df,
+    aes(x = long, y = lat, label = region),
+    size = 3,
+    hjust = 0.5,
+    vjust = 0.5,
+    inherit.aes = FALSE,
+    color = "white",
+    fontface = "bold",
+    check_overlap = TRUE
+  )
 ```
 
 ### Discussion
 
 (1-3 paragraphs): In the Discussion section, interpret the results of your analysis. Identify any trends revealed (or not revealed) by the plots. Speculate about why the data looks the way it does.
+
+
 
 ## Question 2: Title that relates to the question you're answering
 
