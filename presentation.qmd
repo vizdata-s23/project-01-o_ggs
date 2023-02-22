@@ -21,10 +21,10 @@ execute:
 # Add any additional packages you need to this chunk
 # Remove any packages from this list that you're not using
 library(tidyverse)
-library(tidymodels)
-library(palmerpenguins)
-library(gt)
 library(janitor)
+library(maps)
+library(viridis)
+library(ggrepel)
 ```
 
 ```{r}
@@ -90,151 +90,205 @@ chocolate_merged <- chocolate |>
   left_join(con2cont,
             multiple = "all")
 
+chocolate_merged_final <- chocolate_merged |>
+  mutate(
+    year_even = case_when(
+      review_date == 2006 | review_date == 2007 ~ "2006-7",
+      review_date == 2008 | review_date == 2009 ~ "2008-9",
+      review_date == 2010 | review_date == 2011 ~ "2010-11",
+      review_date == 2012 | review_date == 2013 ~ "2012-13",
+      review_date == 2014 | review_date == 2015 ~ "2014-15",
+      review_date == 2016 | review_date == 2017 ~ "2016-17"
+    )
+  ) |>
+  group_by(year_even, cocoa_percent) |>
+  mutate(avg_rating = mean(rating),
+         cocoa_percent = as.numeric(sub("%", "", cocoa_percent))/100)  |>
+  mutate(
+    rating_bin = case_when(
+      rating >= 0.00 & rating <= 0.50 ~ "0.00 ~ 0.50",
+      rating > 0.50 & rating <= 1.00 ~ "0.50 ~ 1.00",
+      rating > 1.00 & rating <= 1.50 ~ "1.00 ~ 1.50",
+      rating > 1.50 & rating <= 2.00 ~ "1.50 ~ 2.00",
+      rating > 2.00 & rating <= 2.50 ~ "2.00 ~ 2.50",
+      rating > 2.50 & rating <= 3.00 ~ "2.50 ~ 3.00",
+      rating > 3.00 & rating <= 3.50 ~ "3.00 ~ 3.50",
+      rating > 3.50 & rating <= 4.00 ~ "3.50 ~ 4.00",
+      rating > 4.00 & rating <= 4.50 ~ "4.00 ~ 4.50",
+      rating > 4.50 & rating <= 5.00 ~ "4.50 ~ 5.00"
+    )
+  )
+
 world_df <- left_join(
   world,
   chocolate |>
     group_by(broad_bean_origin) |>
     summarise(rating = mean(rating)),
-  by = c("region" = "broad_bean_origin"))
+  by = c("region" = "broad_bean_origin")
+)
 
+label_df <- world_df |>
+  filter(!is.na(rating)) |>
+  group_by(region) |>
+  summarise(
+    rating = mean(rating),
+    long = mean(long),
+    lat = mean(lat),
+    .groups = "drop"
+  )|>
+  arrange(desc(rating))|>
+  head(10)
 ```
+## Data
 
-# Using Quarto for presentations
+-   Our primary data set is the [chocolate](https://www.kaggle.com/code/willcanniford/chocolate-bar-ratings-extensive-eda/data) dataset
 
-## Quarto
+-   It contains `r ncol(chocolate)` variables with `r nrow(chocolate)` observations
 
--   The presentation is created using the Quarto CLI
+-   This dataset contains information on the company who makes the chocolate bars, the percent of cocoa, where the company is located, bean type & origin, expert review (out of 5 stars), and the date and reference number for each review
 
--   `##` sets the start of a new slide
-
-## Layouts
-
-You can use plain text
-
--   or bullet points
-
-::: columns
-::: {.column width="50%"}
-or text in two columns $^*$
-:::
-
-::: {.column width="50%"}
--   like
--   this
-:::
-:::
-
-### 
-
-::: aside
-\[\*\] And add footnotes
-:::
-
-## Code
+## Dani
 
 ```{r}
-#| label: boring-regression
-
-# a boring regression
-model <- lm(dist ~ speed, data = cars)
-tidy(model)
-glance(model)
-```
-
-## Plots
-
-```{r}
-#| label: recode-species
-#| echo: false
-
-# In this chunk I'm doing a bunch of analysis that I don't want to present 
-# in my slides. But I need the resulting data frame for a plot I want to present.
-
-penguins_modified <- penguins %>%
-  mutate(species = fct_other(species, keep = "Adelie"))
-```
-
-```{r}
-#| label: plot-penguins
+#| label: fig-dani
+#| message: FALSE
+#| fig.width: 9
+#| fig.height: 8
 #| echo: false
 #| warning: false
-#| fig-alt: |
-#|   Body mass vs. flipper lenght of Palmer Penguins for species Adelie and all 
-#|   the others combined together. There is a relatively strong, positive 
-#|   relationship between the two variables. The Adelie penguins are clustered 
-#|   together but they don't exhibit a different trend than the rest of the 
-#|   penguins.
+#| fig-cap: How do cocoa percentages affect rating by country?
 
-# Uses modified penguins dataset from previous chunk
-# Play around with height and width until you're happy with the look
+chocolate_merged_final |>
+  filter(
+    company_location %in% c(
+      "U.S.A.", "France", "U.K.", "Italy", "Ecuador",
+      "Belgium", "Switzerland", "Germany"
+  )) |>
+  mutate(cocoa_percentage = cocoa_percent / 100) |>
+  ggplot(aes(x = cocoa_percentage, y = rating,
+             color = company_location)) +
+  geom_point(alpha = 0.25) +
+  geom_smooth(se = FALSE) +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1)) +
+  theme_minimal() +
+  labs(
+    x = "Percentage of Cocoa",
+    y = "Rating (From 1-5)",
+    title = "Countries Who Specialize in a Limited Cocoa Percentages \nHave More Consistently Higher Ratings",
+    subtitle = "Top 8 Countries Best Known For Chocolate",
+    color = "Chocolate Company Locations"
+  )
+```
 
-ggplot(
-  penguins_modified, 
-  aes(x = flipper_length_mm, y = body_mass_g, color = species)
+## Jason
+
+```{r}
+#| label: fig-jason
+#| message: FALSE
+#| #| label: plot-penguins
+#| echo: false
+#| warning: false
+#| fig-cap: Where do the world's most popular cocoa beans come from?
+world_df |>
+  filter(region != "Antarctica") |>
+  ggplot() +
+  aes(x = long,
+      y = lat,
+      group = group,
+      fill = rating) +
+  geom_polygon(color = "black", linewidth = 0.2) +
+  geom_label_repel(
+    data = label_df,
+    aes(x = long, y = lat, label = region),
+    size=3, 
+    color = "black",
+    fill = "white",
+    fontface = "bold",
+    box.padding = 0.35, 
+    point.padding = 0.25,
+    segment.color = "black",
+    segment.size = 1,
+    inherit.aes = FALSE,
+    force = 20,
+    min.segment.length = 0.1,
+    alpha = .7
+  )+
+  scale_fill_gradient(low = "red", high = "green",limits = c(3, 3.5)) +
+  theme_void() +
+  theme(panel.background = element_rect(fill = "#cbe4ff")) +
+  labs(
+    title = "Where in the world the most popular chocolate bars come from",
+    subtitle = "Top 10 Countries by Review Ratings Labeled",
+    fill = "Average Rating"
+  )
+```
+
+## Victoria
+
+```{r}
+#| label: fig-victoria
+#| echo: false
+#| warning: false
+#| fig-cap: Comparing the relationship between cocoa percentage and rating from 2006 to 2017
+#| message: false
+
+ggplot(chocolate_merged_final,
+       mapping = aes(x = cocoa_percent, y = avg_rating)) +
+  geom_point() +
+  geom_smooth(
+    aes(color = year_even),
+    method  = "lm",
+    se = FALSE,
+    show.legend = FALSE
   ) +
-  geom_point() + 
-  theme_minimal()
+  facet_grid(year_even ~ ., scales = "free_x") +
+  theme_minimal() +
+  theme(aspect.ratio = 1 / 8) +
+  scale_y_continuous(breaks = c(1, 2, 3, 4, 5)) +
+  scale_x_continuous(breaks = c(.4, .5, .6, .7, .8, .9, 1),
+                     labels = scales::percent_format()) +
+  scale_color_viridis_d() +
+  labs(
+    x = "Percentage of Cocoa in Chocolate",
+    y = "Average Rating",
+    title = "How well Cocoa Percentages are Rated",
+    subtitle = "By year, from 2006 to 2017",
+    color = "Year"
+  )
+
 ```
 
-## Plot and text
+## Minwoo
 
-::: columns
-::: {.column width="50%"}
--   Some text
--   goes here
-:::
-
-::: {.column width="50%"}
 ```{r}
-#| warning: false
-#| out-width: "100%"
-#| fig-width: 4
+#| label: fig-minwoo
 #| echo: false
+#| fig-cap: Relationship between company continent location and the ratings from 2006 to 2017
+#| fig.width: 15
+#| fig.height: 12
+#| warning: false
+#| message: false
 
-# See how I changed out-width and fig-width from defaults
-# to make the figure bigger
-
-ggplot(penguins, aes(x = bill_length_mm, y = species, color = species)) +
-  geom_boxplot() +
-  theme_minimal()
+ggplot(chocolate_merged_final, aes(x = factor(rating_bin), fill = continent)) +
+  geom_bar(position = "fill", stat = "count") +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  scale_fill_viridis(option = "H", discrete = TRUE) +
+  coord_flip() +
+  facet_grid(. ~ year_even) +
+  theme_minimal() +
+  guides(fill = guide_legend(title = "Continent")) +
+  theme(
+    panel.spacing = unit(1, "lines"),
+    panel.border = element_rect(
+      color = "black",
+      fill = NA,
+      size = 0.05
+    )
+  ) +
+  labs(
+    x = "Rating",
+    y = "Percentage",
+    title = "Proportion of Continents For Each Rating Group",
+    subtitle = "By year, from 2006 to 2017"
+  )
 ```
-:::
-:::
-
-# A new section...
-
-## Tables
-
-If you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,
-
-```{r}
-#| label: penguins-table
-
-gt(head(penguins))
-```
-
-## Images
-
-![Image credit: Danielle Navarro, Percolate.](images/watercolour_sys02_img34_teacup-ocean.png)
-
-## Math Expressions {.smaller}
-
-You can write LaTeX math expressions inside a pair of dollar signs, e.g. \$\alpha+\beta\$ renders $\alpha+\beta$. You can use the display style with double dollar signs:
-
-    $$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-
-Limitations:
-
-1.  The source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting `$$` must appear in the very beginning of a line, followed immediately by a non-space character, and the ending `$$` must be at the end of a line, led by a non-space character;
-
-2.  There should not be spaces after the opening `$` or before the closing `$`.
-
-# Wrap up
-
-## Feeling adventurous?
-
--   You are welcomed to use the default styling of the slides. In fact, that's what I expect majority of you will do. You will differentiate yourself with the content of your presentation.
-
--   But some of you might want to play around with slide styling. Some solutions for this can be found at https://quarto.org/docs/presentations/revealjs.
