@@ -259,7 +259,7 @@ world_df |>
   )
 ```
 
-## Figure 3: Comparing the relationship between cocoa percentage and rating from 2006 to 2017
+## Figure 3: The relationship between cocoa percentage and rating over time
 
 ```{r}
 #| label: fig-victoria
