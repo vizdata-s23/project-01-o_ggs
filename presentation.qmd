@@ -25,7 +25,6 @@ library(maps)
 library(viridis)
 library(ggrepel)
 ```
-
 ```{r}
 #| label: setup
 #| include: false
@@ -39,7 +38,6 @@ knitr::opts_chunk$set(
   out.width = "70%"
   )
 ```
-
 ```{r}
 #| label: load-data
 #| include: false
@@ -49,7 +47,6 @@ con2cont <- read_csv("data/countryContinent.csv")
 
 world <- map_data("world")
 ```
-
 ```{r}
 #| label: data-cleaning
 chocolate <- chocolate |>
@@ -81,7 +78,6 @@ con2cont <- con2cont |>
 con2cont <- con2cont |>
   rename(company_location_country = country)
 ```
-
 ```{r}
 #| label: data-merging
 
