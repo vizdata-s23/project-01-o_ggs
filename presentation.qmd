@@ -179,8 +179,6 @@ chocolate_merged |>
   )
 ```
 
-<<<<<<< HEAD
-
 ## Figure 1: A deeper dive
 
 ```{r}
@@ -219,9 +217,6 @@ chocolate_merged |>
 ```
 
 ## Figure 2: Map of preferences for Cocoa Bean origination
-=======
-## Plot 1.2: Map of preferences for Cocoa Bean origination
->>>>>>> 97073e5d6649fe760e06d0e72a2db6cf6de744e5
 
 ```{r}
 #| label: fig-jason
@@ -264,11 +259,7 @@ world_df |>
   )
 ```
 
-<<<<<<< HEAD
-## Figure 3
-=======
-## Plot 2.1: Comparing the relationship between cocoa percentage and rating from 2006 to 2017
->>>>>>> 97073e5d6649fe760e06d0e72a2db6cf6de744e5
+## Figure 3: Comparing the relationship between cocoa percentage and rating from 2006 to 2017
 
 ```{r}
 #| label: fig-victoria
@@ -302,11 +293,8 @@ ggplot(chocolate_merged_final,
 
 ```
 
-<<<<<<< HEAD
-## Figure 4
-=======
-## Plot 2.2: Continental Company Location vs. Ratings by Year {.smaller}
->>>>>>> 97073e5d6649fe760e06d0e72a2db6cf6de744e5
+## Figure 4: Continental Company Location vs. Ratings by Year {.smaller}
+
 
 ```{r}
 #| label: fig-minwoo
