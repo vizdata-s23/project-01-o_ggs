@@ -178,7 +178,7 @@ chocolate_merged |>
   )
 ```
 
-## Jason
+## Plot 1.2 Map of preferences for Cocoa Bean origination
 
 ```{r}
 #| label: fig-jason
