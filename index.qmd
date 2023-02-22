@@ -100,7 +100,7 @@ chocolate_merged_final <- chocolate_merged |>
 
 ## Abstract
 
-In this project, we aim to explore what characteristics (as identified by experts) of chocolate bars lead to the most successful chocolate bars and how expert opinions of these characteristics have changed over time. We found that companies that specialize in a cocoa percent range and get their cocoa beans from Central/ South America and Southeast Asia are the most successful. The data also suggests that experts have grown to highly rate chocolate with a high cocoa percentage over and American-based companies taking the lead in highly rated chocolate over the European counterparts as the years go on.
+In this project, we aim to explore what characteristics (as identified by experts) of chocolate bars lead to the most successful chocolate bars and how expert opinions of these characteristics have changed over time. Our data suggests that companies that specialize in a specific cocoa percent range and get their cocoa beans from Central/ South America and Southeast Asia are the most successful. The data also suggests that experts have grown to highly rate chocolate that contains a high cocoa percentage over lower cocoa percentage chocolates and American-based companies have been taking the lead in highly rated chocolate over their European counterparts as the years go on.
 
 ------------------------------------------------------------------------
 
