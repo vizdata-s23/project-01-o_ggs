@@ -141,12 +141,13 @@ The map was created using the maps package, as inspired by https://eriqande.gith
 #| fig.height: 8
 #| fig-cap: How do cocoa percentages affect rating by country?
 
-chocolate_merged_final |>
+chocolate_merged |>
   filter(
     company_location %in% c(
       "U.S.A.", "France", "U.K.", "Italy", "Ecuador",
       "Belgium", "Switzerland", "Germany"
   )) |>
+  mutate(cocoa_percentage = cocoa_percent/100) |>
   ggplot(aes(x = cocoa_percentage, y = rating,
              color = company_location)) +
   geom_point(alpha = 0.25) +
