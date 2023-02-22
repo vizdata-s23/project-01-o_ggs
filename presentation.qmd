@@ -141,12 +141,17 @@ label_df <- world_df |>
 ```
 
 
-
 -   Our primary data set is the [chocolate](https://www.kaggle.com/code/willcanniford/chocolate-bar-ratings-extensive-eda/data) dataset
 
 -   It contains `r ncol(chocolate)` variables with `r nrow(chocolate)` observations
 
 -   This dataset contains information on the company who makes the chocolate bars, the percent of cocoa, where the company is located, bean type & origin, expert review (out of 5 stars), and the date and reference number for each review
+
+## Goal
+
+-   To provide consumers with the information they need to eat better, more highly rated chocolate.
+
+-   To provide companies with the information they need to produce better, more highly rated chocolate and get awarded!
 
 ## Figure 1: Cocoa Percentages vs. Rating by Country
 
@@ -260,7 +265,6 @@ world_df |>
 ```
 
 ## Figure 3: Cocoa percentage vs. rating, over time
-
 ```{r}
 #| label: fig-victoria
 #| echo: false
@@ -296,7 +300,6 @@ ggplot(chocolate_merged_final,
 ```
 
 ## Figure 4: Continental Company Location vs. Ratings by Year {.smaller}
-
 
 ```{r}
 #| label: fig-minwoo
