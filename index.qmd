@@ -219,7 +219,7 @@ The first plot shows quite a bit of variation between cocoa percentage to variat
 
 The second plot does reveal a spatial clustering that we expected. The countries that produce cocoa beans exist in two man areas, Central/ South America and Southeast Asia. However, there is no specific area that stands out as the best for producing cocoa beans. There are 5 countries from each area that make up the top 10, and there are also come of the worst performing cocoa beans in these regions. It is likely that cocoa does require specific conditions for growth but seemingly as long those conditions are met the preferences for beans has more to do with specific processes within the countries then climate related.
 
-## Question 2: Title that relates to the question you're answering
+## Question 2: How have preferences among chocolate bar reviewers changed over time?
 
 ### Introduction
 
