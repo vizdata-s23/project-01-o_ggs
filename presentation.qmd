@@ -1,5 +1,5 @@
 ---
-title: "Project title"
+title: "A Student's Review of Expert Reviews of Chocolate Bars"
 subtitle: "STA/ISS 313 - Spring 2023 - Project 1"
 author: "The O_GGS"
 title-slide-attributes:
@@ -147,24 +147,22 @@ label_df <- world_df |>
 
 -   This dataset contains information on the company who makes the chocolate bars, the percent of cocoa, where the company is located, bean type & origin, expert review (out of 5 stars), and the date and reference number for each review
 
-## Dani
+## Plot 1.1: Cocoa Percentages vs. Rating by Country
 
 ```{r}
 #| label: fig-dani
 #| message: FALSE
 #| fig.width: 9
 #| fig.height: 8
-#| echo: false
-#| warning: false
 #| fig-cap: How do cocoa percentages affect rating by country?
 
-chocolate_merged_final |>
+chocolate_merged |>
   filter(
     company_location %in% c(
       "U.S.A.", "France", "U.K.", "Italy", "Ecuador",
       "Belgium", "Switzerland", "Germany"
   )) |>
-  mutate(cocoa_percentage = cocoa_percent / 100) |>
+  mutate(cocoa_percentage = cocoa_percent/100) |>
   ggplot(aes(x = cocoa_percentage, y = rating,
              color = company_location)) +
   geom_point(alpha = 0.25) +
