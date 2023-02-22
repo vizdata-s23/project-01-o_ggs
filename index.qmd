@@ -212,10 +212,6 @@ The second plot does reveal a spatial clustering that we expected. The countries
 
 (1-2 paragraphs): Introduction to the question and what parts of the dataset are necessary to answer the question. Also discuss why you're interested in this question.
 
-We aim to explore what characteristics of chocolate bars are the most successful as rated out of 5 stars by experts. This information is important for consumers so when they are in the candy aisle at grocery stores faced with dozens of options, they can use these findings to make a well-informed decision about which chocolate they should buy. This is also important for chocolate makers to understand so that they can use this information to improve their own chocolate given the location preferences.
-
-To answer what characteristics lead to the most successful chocolate bars we will use the variables that describe cocoa percentage in the chocolate, the various companies who are included in this dataset, the origin of the cocoa beans that are used to produce that chocolate bar, and the expert reviews of the chocolate bars.
-
 As for our second question, we aim to investigate how the preferences of the chocolate bar reviewers have changed over time. We believe that this information will be useful for both the consumers and the producers: the consumers will be able to make informed decisions when purchasing chocolate and the producers can potentially use this information in modifying and improving their products competitively.
 
 To explore the preferential change over time in chocolate bars, we will be using the variables that describe the year a chocolate bar review was written, the mapped continents in which the companies are located, and the ratings received in each review.
