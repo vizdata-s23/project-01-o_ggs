@@ -1,5 +1,5 @@
 ---
-title: "Project title"
+title: "A Student's Review of Expert Reviews of Chocolate Bars"
 subtitle: "STA/ISS 313 - Project 1"
 author: "The O_GGS"
 format: html
@@ -100,7 +100,7 @@ chocolate_merged_final <- chocolate_merged |>
 
 ## Abstract
 
-In this project, we aim to explore what characteristics (as identified by experts) of chocolate bars lead to the most successful chocolate bars and how expert opinions of these characteristics have changed over time. INSERT RESULTS HERE
+In this project, we aim to explore what characteristics (as identified by experts) of chocolate bars lead to the most successful chocolate bars and how expert opinions of these characteristics have changed over time. We found that companies that specialize in a cocoa percent range and get their cocoa beans from Central/ South America and Southeast Asia are the most successful. The data also suggests that experts have grown to highly rate chocolate with a high cocoa percentage over and American-based companies taking the lead in highly rated chocolate over the European counterparts as the years go on.
 
 ------------------------------------------------------------------------
 
@@ -120,20 +120,20 @@ To answer what characteristics lead to the most successful chocolate bars we wil
 
 ### Approach
 
-#### Plot 1.1
+#### Figure 1
 
-For this first plot @fig-dani, we wanted to visualize how the cocoa percent in a chocolate bar affects the expert review based on where the chocolate company is located. We believe that there might be general trends for each country that lead to chocolate being more highly rated if the population preferred a specific cocoa percentage. For example, we know Americans have a strong preference for sweeter, less cocoa- filled chocolate and wanted to know if a decrease in cocoa percentage would lead to an increase in reviews.
+For this first plot (@fig-dani), we wanted to visualize how the cocoa percent in a chocolate bar affects the expert review based on where the chocolate company is located. We believe that there might be general trends for each country that lead to chocolate being more highly rated if the population preferred a specific cocoa percentage. For example, we know Americans have a strong preference for sweeter, less cocoa-filled chocolate and wanted to know if a decrease in cocoa percentage would lead to an increase in reviews.
 
-To visualize this, we first created a scatterplot to get a general idea of the relationship between a country, their preference for cocoa, and how that might affect the rating. The points were somewhat all stacked on top of each other since a lot of observations had very similar positions. This made it hard to see overall relationships so we made the points a bit transparent to better communicate more frequent cocoa percentage and rating pairings through more concentrated colors. Then we layered trend lines over our scatterplot for 8 countries that are best known for the chocolate they produce (according to outside research). We also chose these countries because they had over 30 companies who manufactured and sold their chocolate there so we thought we would get a pretty representative sample of companies for each country.
+To visualize this, we first created a scatterplot to get a general idea of the relationship between a country, their preference for cocoa, and how that might affect the rating. The points were somewhat all stacked on top of each other since a lot of observations had very similar positions. This made it hard to see overall relationships so we made the points a little transparent to better communicate more frequent cocoa percentage and rating pairings through more concentrated colors. Then we layered trend lines over our scatterplot for 8 countries that are best known for the chocolate they produce (according to outside research). We also chose these countries because they had over 30 companies who manufactured and sold their chocolate there so we thought we would get a pretty representative sample of companies for each country. These countries include U.S, France, U.K, Italy, Ecuador, Belgium, Switzerland, and Germany.
 
-#### Plot 1.2
+#### Figure 2
 
 For this second plot, we thought it would be interesting to observe the relationship between the origin of cocao beans and the expert reviews. Furthermore, given how neighboring countries often have similar climates we believe that preferences for beans from nearby countries should be similar. In order to investigate these relationships we decided to create a map.
 
-The map was created using the maps package, as inspired by https://eriqande.github.io/rep-res-web/lectures/making-maps-with-R.html. We left_joined the world data set with the average rating for each country from the chocolate data set. This new dataset contained the latitude and longitude coordinates from the world data set which allow us to use the geom_polygon function to create the baseline for the map. The countries were then colored based on rating to show the preferences for their bean origin. Finally, we decided to add labels for certain countries. We tried many variations of labels so that the plot was not cluttered but still provided additional information. These labels chose highlight which countries were the most popular, further showing which areas contained the most popular bean origins.
+The map was created using the maps package (with inspiration taken from [here](https://eriqande.github.io/rep-res-web/lectures/making-maps-with-R.html)). We left_joined the world data set with the average rating for each country from the chocolate data set. This new dataset contained the latitude and longitude coordinates from the world data set which allow us to use the geom_polygon function to create the baseline for the map. The countries were then colored based on rating to show the preferences for their bean origin. Finally, we decided to add labels for certain countries. We tried many variations of labels so that the plot was not cluttered but still provided additional information. The labels chosen highlight which countries were the most popular, further showing which areas contained the most popular bean origins.
 
 ### Analysis
-
+#### Figure 1
 ```{r}
 #| label: fig-dani
 #| message: FALSE
@@ -162,7 +162,7 @@ chocolate_merged |>
     color = "Chocolate Company Locations"
   )
 ```
-
+#### Figure 2
 ```{r}
 #| label: fig-jason
 #| message: FALSE
@@ -239,18 +239,18 @@ To explore the preferential change over time in chocolate bars, we will be using
 
 ### Approach
 
-#### Plot 2.1
+#### Figure 3
 
 To create the first plot, we created line plots by year that show the relationship between the cocoa percentage of the chocolate bar and their ratings. In creating the variable with year information that will be used in faceting the plots, we grouped the year information provided in `review_date` into two year increments to create a new character variable (`year_even`) using the mutate function. We made this choice as 12 separate graphs (one for each year instead of for two years) would provide too much clutter, and it would be hard to visualize the trends across time. We also made a new variable, `avg_rating`, that stores the average rating for a cocoa percentage in a certain year by grouping the data by `year_even` and `cocoa_percentage`. For the plot, our x-axis variable is the cocoa percentage and the y-axis variable is the rating. The plot will be faceted into 6 time periods assigned within 2006 \~ 2017. We created linear line graphs and scatterplots so we can see the overall trend of how ratings change as the cocoa percentage changes as well as some variation in the data, and we faceted by time periods how this relationship changed as time changed.
 
-#### Plot 2.2
+#### Figure 4
 
 For our second plot, we will be observing the relationship between the continent in which the company is located and their review ratings for each of the year groups created in Plot 1.1. We thought that it would be interesting to see which continental group of companies have become more popular or preferred over time and also use this information to understand how different continents have improved in their performance over the years.
 
 In creating this plot, we plan to implement stacked bar plots representing the proportion of continents where companies are located for each respective faceted year using bar plot function from ggplot2 with `position = 'fill'` option to create a stacked bar graph with percentage proportions shown instead of counts. Since we are focusing on the proportion, stacked bar graphs visually showing the percentage proportions and their side-by-side comparison along identical axis would be an effective way to interpret the changes in proportions over time. Then similar to creating the faceting year variable, we will create a new, factored variable `rating_bin` that groups the review ratings in 0.5 intervals ("0.0 \~ 0.5", "0.5 \~ 1.0") where the lower bound is exclusive with the exception of the first group. For our plot, we will count and accumulate the number of ratings for each continent where the companies are located in and finally represent the count of continents for each level of rating as percentage proportions using the stacked bar plots. The x-axis variable of the plot will be the percentage proportions of continents and the y-axis variable is the factored review rating levels. We will differentiate the continents by using individual colors for easier readability. In doing this, we implemented a scale function from viridis package to map each continent to different colors in the mapping we specified (option H). Lastly, we will facet the plot into the 6 time periods used in Plot 1.1 to observe how the continental proportions have changed during the time frame.
 
 ### Analysis
-
+#### Figure 3
 ```{r}
 #| label: fig-victoria
 #| fig-cap: Comparing the relationship between cocoa percentage and rating from 2006 to 2017
@@ -283,7 +283,7 @@ ggplot(chocolate_merged_final,
 
 ```
 
-#### Plot 2.2
+#### Figure 4
 
 ```{r}
 #| label: fig-minwoo
