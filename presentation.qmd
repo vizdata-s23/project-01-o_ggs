@@ -13,6 +13,7 @@ execute:
   message: false
   warning: false
 ---
+
 ```{r}
 #| label: load-packages
 #| include: false
@@ -25,6 +26,7 @@ library(maps)
 library(viridis)
 library(ggrepel)
 ```
+
 ```{r}
 #| label: setup
 #| include: false
@@ -38,6 +40,7 @@ knitr::opts_chunk$set(
   out.width = "70%"
   )
 ```
+
 ```{r}
 #| label: load-data
 #| include: false
@@ -47,6 +50,7 @@ con2cont <- read_csv("data/countryContinent.csv")
 
 world <- map_data("world")
 ```
+
 ```{r}
 #| label: data-cleaning
 chocolate <- chocolate |>
@@ -78,6 +82,7 @@ con2cont <- con2cont |>
 con2cont <- con2cont |>
   rename(company_location_country = country)
 ```
+
 ```{r}
 #| label: data-merging
 
@@ -134,6 +139,7 @@ label_df <- world_df |>
   arrange(desc(rating))|>
   head(10)
 ```
+
 ## Data
 
 -   Our primary data set is the [chocolate](https://www.kaggle.com/code/willcanniford/chocolate-bar-ratings-extensive-eda/data) dataset
@@ -173,7 +179,7 @@ chocolate_merged |>
   )
 ```
 
-## Plot 1.2 Map of preferences for Cocoa Bean origination
+## Plot 1.2: Map of preferences for Cocoa Bean origination
 
 ```{r}
 #| label: fig-jason
@@ -216,7 +222,7 @@ world_df |>
   )
 ```
 
-## Plot 2.1 Comparing the relationship between cocoa percentage and rating from 2006 to 2017
+## Plot 2.1: Comparing the relationship between cocoa percentage and rating from 2006 to 2017
 
 ```{r}
 #| label: fig-victoria
@@ -250,7 +256,7 @@ ggplot(chocolate_merged_final,
 
 ```
 
-## Minwoo
+## Plot 2.2: Continental Company Location vs. Ratings by Year {.smaller}
 
 ```{r}
 #| label: fig-minwoo
