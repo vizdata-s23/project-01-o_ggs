@@ -212,11 +212,27 @@ The second plot does reveal a spatial clustering that we expected. The countries
 
 (1-2 paragraphs): Introduction to the question and what parts of the dataset are necessary to answer the question. Also discuss why you're interested in this question.
 
+We aim to explore what characteristics of chocolate bars are the most successful as rated out of 5 stars by experts. This information is important for consumers so when they are in the candy aisle at grocery stores faced with dozens of options, they can use these findings to make a well-informed decision about which chocolate they should buy. This is also important for chocolate makers to understand so that they can use this information to improve their own chocolate given the location preferences.
+
+To answer what characteristics lead to the most successful chocolate bars we will use the variables that describe cocoa percentage in the chocolate, the various companies who are included in this dataset, the origin of the cocoa beans that are used to produce that chocolate bar, and the expert reviews of the chocolate bars.
+
+As for our second question, we aim to investigate how the preferences of the chocolate bar reviewers have changed over time. We believe that this information will be useful for both the consumers and the producers: the consumers will be able to make informed decisions when purchasing chocolate and the producers can potentially use this information in modifying and improving their products competitively.
+
+To explore the preferential change over time in chocolate bars, we will be using the variables that describe the year a chocolate bar review was written, the mapped continents in which the companies are located, and the ratings received in each review.
+
 ### Approach
 
 (1-2 paragraphs): Describe what types of plots you are going to make to address your question. For each plot, provide a clear explanation as to why this plot (e.g. boxplot, barplot, histogram, etc.) is best for providing the information you are asking about. The two plots should be of different types, and at least one of the two plots needs to use either color mapping or facets.
 
+#### Plot 2.1
+
 To create the first plot, we created line plots by year that show the relationship between the cocoa percentage of the chocolate bar and their ratings. In creating the variable with year information that will be used in faceting the plots, we grouped the year information provided in `review_date` into two year increments to create a new character variable (`year_even`) using the mutate function. We made this choice as 12 separate graphs (one for each year instead of for two years) would provide too much clutter, and it would be hard to visualize the trends across time. We also made a new variable, `avg_rating`, that stores the average rating for a cocoa percentage in a certain year by grouping the data by `year_even` and `cocoa_percentage`. For the plot, our x-axis variable is the cocoa percentage and the y-axis variable is the rating. The plot will be faceted into 6 time periods assigned within 2006 \~ 2017. We created linear line graphs and scatterplots so we can see the overall trend of how ratings change as the cocoa percentage changes as well as some variation in the data, and we faceted by time periods how this relationship changed as time changed.
+
+#### Plot 2.2
+
+For our second plot, we will be observing the relationship between the continent in which the company is located and their review ratings for each of the year groups created in Plot 1.1. We thought that it would be interesting to see which continental group of companies have become more popular or preferred over time and also use this information to understand how different continents have improved in their performance over the years.
+
+In creating this plot, we plan to implement stacked bar plots representing the proportion of continents where companies are located for each respective faceted year using bar plot function from ggplot2 with `position = 'fill'` option to create a stacked bar graph with percentage proportions shown instead of counts. Since we are focusing on the proportion, stacked bar graphs visually showing the percentage proportions and their side-by-side comparison along identical axis would be an effective way to interpret the changes in proportions over time. Then similar to creating the faceting year variable, we will create a new, factored variable `rating_bin` that groups the review ratings in 0.5 intervals ("0.0 \~ 0.5", "0.5 \~ 1.0") where the lower bound is exclusive with the exception of the first group. For our plot, we will count and accumulate the number of ratings for each continent where the companies are located in and finally represent the count of continents for each level of rating as percentage proportions using the stacked bar plots. The x-axis variable of the plot will be the percentage proportions of continents and the y-axis variable is the factored review rating levels. We will differentiate the continents by using individual colors for easier readability. In doing this, we implemented a scale function from viridis package to map each continent to different colors in the mapping we specified (option H). Lastly, we will facet the plot into the 6 time periods used in Plot 1.1 to observe how the continental proportions have changed during the time frame.
 
 ### Analysis
 
@@ -269,10 +285,14 @@ ggplot(chocolate_merged1, mapping = aes(x = cocoa_percent, y = avg_rating)) +
 
 ```
 
-Q2 - Plot 2
+#### Plot 2.2
 
 ```{r}
 #| label: fig-minwoo
+#| #| fig-cap: Relationship between company continent location vs. ratings
+#| warning: false
+#| message: false
+
 chocolate_merged1 <- chocolate_merged1 |>
   mutate(
     rating_bin = case_when(
@@ -289,41 +309,15 @@ chocolate_merged1 <- chocolate_merged1 |>
     )
   )
 
+library(viridis)
+
 ggplot(chocolate_merged1, aes(x = factor(rating_bin), fill = continent)) +
   geom_bar(position="fill", stat = "count") +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  scale_fill_viridis(option = "H", discrete = TRUE) +
   coord_flip() +
   facet_grid(. ~ year_even) +
   theme_minimal() +
-  scale_fill_viridis_d() +
-  guides(fill = guide_legend(title = "Continent")) +
-  theme(panel.spacing = unit(1, "lines"), panel.border = element_rect(color = "black", fill = NA, size = 0.05)) +
-  labs(x = "Rating", y = "Percentage", title = "Proportion of Continents For Each Rating Group", subtitle = "By year, from 2006 to 2017")
-```
-
-```{r}
-chocolate_merged1 <- chocolate_merged1 |>
-  mutate(
-    rating_bin = case_when(
-      rating >= 0.00 & rating <= 0.50 ~ "0.00 ~ 0.50",
-      rating > 0.50 & rating <= 1.00 ~ "0.50 ~ 1.00",
-      rating > 1.00 & rating <= 1.50 ~ "1.00 ~ 1.50",
-      rating > 1.50 & rating <= 2.00 ~ "1.50 ~ 2.00",
-      rating > 2.00 & rating <= 2.50 ~ "2.00 ~ 2.50",
-      rating > 2.50 & rating <= 3.00 ~ "2.50 ~ 3.00",
-      rating > 3.00 & rating <= 3.50 ~ "3.00 ~ 3.50",
-      rating > 3.50 & rating <= 4.00 ~ "3.50 ~ 4.00",
-      rating > 4.00 & rating <= 4.50 ~ "4.00 ~ 4.50",
-      rating > 4.50 & rating <= 5.00 ~ "4.50 ~ 5.00"
-    )
-  )
-
-ggplot(chocolate_merged1, aes(x = factor(rating_bin), fill = continent)) +
-  geom_bar(position="fill", stat = "count") +
-  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
-  facet_grid(year_even ~ .) +
-  theme_minimal() +
-  scale_fill_viridis_d() +
   guides(fill = guide_legend(title = "Continent")) +
   theme(panel.spacing = unit(1, "lines"), panel.border = element_rect(color = "black", fill = NA, size = 0.05)) +
   labs(x = "Rating", y = "Percentage", title = "Proportion of Continents For Each Rating Group", subtitle = "By year, from 2006 to 2017")
@@ -333,4 +327,12 @@ ggplot(chocolate_merged1, aes(x = factor(rating_bin), fill = continent)) +
 
 (1-3 paragraphs): In the Discussion section, interpret the results of your analysis. Identify any trends revealed (or not revealed) by the plots. Speculate about why the data looks the way it does.
 
+#### Plot 2.1
+
 Based on the first plot, it can be seen that in general, as the percentage of cocoa increases, the ratings tend to decrease, indicating that people tend to prefer chocolate with less cocoa in it. However, this trend has lessened as time has progressed. In 2016-2017, there is no clear preference for chocolate with higher or lower cocoa percentages, but in 2006-2007, the data clearly indicates a preference for chocolate with lower cocoa percentage. Additionally, the data does not seem to contain much chocolate with less than 50% cocoa, as these chocolates only have data in 2010 to 2013. This may be an indication that chocolate companies produced more low cocoa chocolate during those years, but it could just be a lack of observations in this data set.
+
+#### Plot 2.2
+
+We can observe from the second plot that in 2006 and 2007, higher proportion of the reviewed chocolate has been produced by companies in Europe with European companies taking up almost 90% of chocolate rated in the range of 3.50 ~ 4.00. However, from 2008 onward, we see that in general a large proportion of the chocolates reviewed are now produced by American companies. European companies are still present at higher ratings, taking up approximately 50% of chocolates rated in the range of 3.50 ~ 4.00. Then as the years go by, their proportions begin to reduce. This gradual shift continues until the final time period, 2016 ~ 2017, and by this period most of the chocolates reviewed are produced by American companies along with them producing most of higher-rated chocolates. Therefore it is clear from the plot that the preference for the general continental group of companies have changed over time from European companies to American companies.
+
+In addition, this tells us that most of the earlier data points of our data set are mainly represented by European companies while those in the later time period are represented by American companies. This may further confirm that European companies have initially been dominant in their popularity as well as number of chocolates produced but American companies began outperforming them starting from 2008. We also see that in the later time periods, there are no chocolates reviewed above 4.5 or below 1.5. General rating range internet users may have become narrower in the recent years, with people giving increasingly specific ratings and having more similar palettes and experiences consuming chocolate.
