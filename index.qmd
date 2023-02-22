@@ -69,7 +69,7 @@ chocolate_merged <- chocolate |>
   left_join(con2cont,
             multiple = "all")
 
-chocolate_merged1 <- chocolate_merged |>
+chocolate_merged_final <- chocolate_merged |>
   mutate(
     year_even = case_when(
       review_date == 2006 | review_date == 2007 ~ "2006-7",
@@ -82,7 +82,21 @@ chocolate_merged1 <- chocolate_merged |>
   ) |>
   group_by(year_even, cocoa_percent) |>
   mutate(avg_rating = mean(rating),
-         cocoa_percent = as.numeric(sub("%", "", cocoa_percent))/100) 
+         cocoa_percent = as.numeric(sub("%", "", cocoa_percent))/100)  |>
+  mutate(
+    rating_bin = case_when(
+      rating >= 0.00 & rating <= 0.50 ~ "0.00 ~ 0.50",
+      rating > 0.50 & rating <= 1.00 ~ "0.50 ~ 1.00",
+      rating > 1.00 & rating <= 1.50 ~ "1.00 ~ 1.50",
+      rating > 1.50 & rating <= 2.00 ~ "1.50 ~ 2.00",
+      rating > 2.00 & rating <= 2.50 ~ "2.00 ~ 2.50",
+      rating > 2.50 & rating <= 3.00 ~ "2.50 ~ 3.00",
+      rating > 3.00 & rating <= 3.50 ~ "3.00 ~ 3.50",
+      rating > 3.50 & rating <= 4.00 ~ "3.50 ~ 4.00",
+      rating > 4.00 & rating <= 4.50 ~ "4.00 ~ 4.50",
+      rating > 4.50 & rating <= 5.00 ~ "4.50 ~ 5.00"
+    )
+  )
 ```
 
 ## Abstract
@@ -247,7 +261,8 @@ In creating this plot, we plan to implement stacked bar plots representing the p
 #| warning: false
 #| message: false
 
-ggplot(chocolate_merged1, mapping = aes(x = cocoa_percent, y = avg_rating)) +
+ggplot(chocolate_merged_final,
+       mapping = aes(x = cocoa_percent, y = avg_rating)) +
   geom_point() +
   geom_smooth(
     aes(color = year_even),
@@ -276,38 +291,34 @@ ggplot(chocolate_merged1, mapping = aes(x = cocoa_percent, y = avg_rating)) +
 
 ```{r}
 #| label: fig-minwoo
-#| #| fig-cap: Relationship between company continent location vs. ratings
+#| fig-cap: Relationship between company continent location and the ratings from 2006 to 2017
+#| fig.width: 15
+#| fig.height: 12
 #| warning: false
 #| message: false
 
-chocolate_merged1 <- chocolate_merged1 |>
-  mutate(
-    rating_bin = case_when(
-      rating >= 0.00 & rating <= 0.50 ~ "0.00 ~ 0.50",
-      rating > 0.50 & rating <= 1.00 ~ "0.50 ~ 1.00",
-      rating > 1.00 & rating <= 1.50 ~ "1.00 ~ 1.50",
-      rating > 1.50 & rating <= 2.00 ~ "1.50 ~ 2.00",
-      rating > 2.00 & rating <= 2.50 ~ "2.00 ~ 2.50",
-      rating > 2.50 & rating <= 3.00 ~ "2.50 ~ 3.00",
-      rating > 3.00 & rating <= 3.50 ~ "3.00 ~ 3.50",
-      rating > 3.50 & rating <= 4.00 ~ "3.50 ~ 4.00",
-      rating > 4.00 & rating <= 4.50 ~ "4.00 ~ 4.50",
-      rating > 4.50 & rating <= 5.00 ~ "4.50 ~ 5.00"
-    )
-  )
-
-library(viridis)
-
-ggplot(chocolate_merged1, aes(x = factor(rating_bin), fill = continent)) +
-  geom_bar(position="fill", stat = "count") +
+ggplot(chocolate_merged_final, aes(x = factor(rating_bin), fill = continent)) +
+  geom_bar(position = "fill", stat = "count") +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
   scale_fill_viridis(option = "H", discrete = TRUE) +
   coord_flip() +
   facet_grid(. ~ year_even) +
   theme_minimal() +
   guides(fill = guide_legend(title = "Continent")) +
-  theme(panel.spacing = unit(1, "lines"), panel.border = element_rect(color = "black", fill = NA, size = 0.05)) +
-  labs(x = "Rating", y = "Percentage", title = "Proportion of Continents For Each Rating Group", subtitle = "By year, from 2006 to 2017")
+  theme(
+    panel.spacing = unit(1, "lines"),
+    panel.border = element_rect(
+      color = "black",
+      fill = NA,
+      size = 0.05
+    )
+  ) +
+  labs(
+    x = "Rating",
+    y = "Percentage",
+    title = "Proportion of Continents For Each Rating Group",
+    subtitle = "By year, from 2006 to 2017"
+  )
 ```
 
 ### Discussion
