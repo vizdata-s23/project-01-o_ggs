@@ -13,7 +13,7 @@ execute:
   message: false
   warning: false
 ---
-
+## Data
 ```{r}
 #| label: load-packages
 #| include: false
@@ -140,7 +140,7 @@ label_df <- world_df |>
   head(10)
 ```
 
-## Data
+
 
 -   Our primary data set is the [chocolate](https://www.kaggle.com/code/willcanniford/chocolate-bar-ratings-extensive-eda/data) dataset
 
