@@ -133,7 +133,9 @@ For this second plot, we thought it would be interesting to observe the relation
 The map was created using the maps package (with inspiration taken from [here](https://eriqande.github.io/rep-res-web/lectures/making-maps-with-R.html)). We left_joined the world data set with the average rating for each country from the chocolate data set. This new dataset contained the latitude and longitude coordinates from the world data set which allow us to use the geom_polygon function to create the baseline for the map. The countries were then colored based on rating to show the preferences for their bean origin. Finally, we decided to add labels for certain countries. We tried many variations of labels so that the plot was not cluttered but still provided additional information. The labels chosen highlight which countries were the most popular, further showing which areas contained the most popular bean origins.
 
 ### Analysis
+
 #### Figure 1
+
 ```{r}
 #| label: fig-dani
 #| message: FALSE
@@ -162,7 +164,9 @@ chocolate_merged |>
     color = "Company Locations"
   )
 ```
+
 #### Figure 2
+
 ```{r}
 #| label: fig-jason
 #| message: FALSE
@@ -249,7 +253,9 @@ For our second plot, we will be observing the relationship between the continent
 In creating this plot, we plan to implement stacked bar plots representing the proportion of continents where companies are located for each respective faceted year using bar plot function from ggplot2 with `position = 'fill'` option to create a stacked bar graph with percentage proportions shown instead of counts. Since we are focusing on the proportion, stacked bar graphs visually showing the percentage proportions and their side-by-side comparison along identical axis would be an effective way to interpret the changes in proportions over time. Then similar to creating the faceting year variable, we will create a new, factored variable `rating_bin` that groups the review ratings in 0.5 intervals ("0.0 \~ 0.5", "0.5 \~ 1.0") where the lower bound is exclusive with the exception of the first group. For our plot, we will count and accumulate the number of ratings for each continent where the companies are located in and finally represent the count of continents for each level of rating as percentage proportions using the stacked bar plots. The x-axis variable of the plot will be the percentage proportions of continents and the y-axis variable is the factored review rating levels. We will differentiate the continents by using individual colors for easier readability. In doing this, we implemented a scale function from viridis package to map each continent to different colors in the mapping we specified (option H). Lastly, we will facet the plot into the 6 time periods used in Plot 1.1 to observe how the continental proportions have changed during the time frame.
 
 ### Analysis
+
 #### Figure 3
+
 ```{r}
 #| label: fig-victoria
 #| fig-cap: Comparing the relationship between cocoa percentage and rating from 2006 to 2017
