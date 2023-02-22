@@ -73,8 +73,8 @@ chocolate <- chocolate |>
       company_location == "Niacragua" ~ "Nicaragua",
       company_location == "Eucador" ~ "Ecuador",
       TRUE ~ company_location
-    )
-  )
+    ),
+    cocoa_percent = as.numeric(sub("%", "", cocoa_percent)))
 
 con2cont <- con2cont |>
   select(country, continent)
@@ -229,7 +229,7 @@ world_df |>
 #| warning: false
 #| fig-cap: Comparing the relationship between cocoa percentage and rating from 2006 to 2017
 #| message: false
-
+glimpse(chocolate_merged_final)
 ggplot(chocolate_merged_final,
        mapping = aes(x = cocoa_percent, y = avg_rating)) +
   geom_point() +
