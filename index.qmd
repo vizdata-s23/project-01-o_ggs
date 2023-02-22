@@ -68,6 +68,21 @@ con2cont <- con2cont |>
 chocolate_merged <- chocolate |>
   left_join(con2cont,
             multiple = "all")
+
+chocolate_merged1 <- chocolate_merged |>
+  mutate(
+    year_even = case_when(
+      review_date == 2006 | review_date == 2007 ~ "2006-7",
+      review_date == 2008 | review_date == 2009 ~ "2008-9",
+      review_date == 2010 | review_date == 2011 ~ "2010-11",
+      review_date == 2012 | review_date == 2013 ~ "2012-13",
+      review_date == 2014 | review_date == 2015 ~ "2014-15",
+      review_date == 2016 | review_date == 2017 ~ "2016-17"
+    )
+  ) |>
+  group_by(year_even, cocoa_percent) |>
+  mutate(avg_rating = mean(rating),
+         cocoa_percent = as.numeric(sub("%", "", cocoa_percent))/100) 
 ```
 
 ## Abstract
@@ -232,22 +247,6 @@ In creating this plot, we plan to implement stacked bar plots representing the p
 #| warning: false
 #| message: false
 
-chocolate_merged1 <- chocolate_merged |>
-  mutate(
-    year_even = case_when(
-      review_date == 2006 | review_date == 2007 ~ "2006-7",
-      review_date == 2008 | review_date == 2009 ~ "2008-9",
-      review_date == 2010 | review_date == 2011 ~ "2010-11",
-      review_date == 2012 | review_date == 2013 ~ "2012-13",
-      review_date == 2014 | review_date == 2015 ~ "2014-15",
-      review_date == 2016 | review_date == 2017 ~ "2016-17"
-    )
-  ) |>
-  group_by(year_even, cocoa_percent) |>
-  mutate(avg_rating = mean(rating),
-         cocoa_percent = as.numeric(sub("%", "", cocoa_percent))) |>
-  mutate(cocoa_percent = cocoa_percent / 100)
-
 ggplot(chocolate_merged1, mapping = aes(x = cocoa_percent, y = avg_rating)) +
   geom_point() +
   geom_smooth(
@@ -313,11 +312,7 @@ ggplot(chocolate_merged1, aes(x = factor(rating_bin), fill = continent)) +
 
 ### Discussion
 
-#### Plot 2.1
-
 Based on the Figure 3, it can be seen that in general, as the percentage of cocoa increases, the ratings tend to decrease, indicating that people tend to prefer chocolate with less cocoa in it. However, this trend has lessened as time has progressed. In 2016-2017, there is no clear preference for chocolate with higher or lower cocoa percentages, but in 2006-2007, the data clearly indicates a preference for chocolate with lower cocoa percentage. Additionally, the data does not seem to contain much chocolate with less than 50% cocoa, as these chocolates only have data in 2010 to 2013. This may be an indication that chocolate companies produced more low cocoa chocolate during those years, but it could just be a lack of observations in this data set.
-
-#### Plot 2.2
 
 We can observe from Figure 4 that in 2006 and 2007, higher proportion of the reviewed chocolate has been produced by companies in Europe with European companies taking up almost 90% of chocolate rated in the range of 3.50 \~ 4.00. However, from 2008 onward, we see that in general a large proportion of the chocolates reviewed are now produced by American companies. European companies are still present at higher ratings, taking up approximately 50% of chocolates rated in the range of 3.50 \~ 4.00. Then as the years go by, their proportions begin to reduce. This gradual shift continues until the final time period, 2016 \~ 2017, and by this period most of the chocolates reviewed are produced by American companies along with them producing most of higher-rated chocolates. Therefore it is clear from the plot that the preference for the general continental group of companies have changed over time from European companies to American companies.
 
