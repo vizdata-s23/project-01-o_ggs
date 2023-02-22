@@ -144,7 +144,7 @@ The map was created using the maps package, as inspired by https://eriqande.gith
 #| fig.height: 8
 #| fig-cap: How do cocoa percentages affect rating by country?
 
-chocolate_merged |>
+chocolate_merged_final |>
   filter(
     company_location %in% c(
       "U.S.A.", "France", "U.K.", "Italy", "Ecuador",
