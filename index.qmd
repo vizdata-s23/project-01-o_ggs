@@ -157,9 +157,9 @@ chocolate_merged |>
   labs(
     x = "Percentage of Cocoa",
     y = "Rating (From 1-5)",
-    title = "Countries Who Specialize in a Limited Cocoa Percentages \nHave More Consistently Higher Ratings",
+    title = "Countries Who Specialize in a Limited Cocoa Percentages Have More \nConsistently Higher Ratings",
     subtitle = "Top 8 Countries Best Known For Chocolate",
-    color = "Chocolate Company Locations"
+    color = "Company Locations"
   )
 ```
 #### Figure 2

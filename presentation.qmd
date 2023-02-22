@@ -147,7 +147,7 @@ label_df <- world_df |>
 
 -   This dataset contains information on the company who makes the chocolate bars, the percent of cocoa, where the company is located, bean type & origin, expert review (out of 5 stars), and the date and reference number for each review
 
-## Plot 1.1: Cocoa Percentages vs. Rating by Country
+## Figure 1: Cocoa Percentages vs. Rating by Country
 
 ```{r}
 #| label: fig-dani
@@ -172,13 +172,51 @@ chocolate_merged |>
   labs(
     x = "Percentage of Cocoa",
     y = "Rating (From 1-5)",
-    title = "Countries Who Specialize in a Limited Cocoa Percentages \nHave More Consistently Higher Ratings",
+    title = "Countries Who Specialize in a Limited Cocoa Percentages Have More \nConsistently Higher Ratings",
     subtitle = "Top 8 Countries Best Known For Chocolate",
-    color = "Chocolate Company Locations"
+    color = "Company Locations"
   )
 ```
 
-## Plot 1.2 Map of preferences for Cocoa Bean origination
+
+## Figure 1: A deeper dive
+
+```{r}
+#| label: fig-dani-2
+#| message: FALSE
+#| fig.width: 9
+#| fig.height: 8
+#| fig-cap: How do cocoa percentages affect rating by country?
+
+chocolate_merged |>
+  filter(
+    company_location %in% c(
+      "U.S.A.", "France", "U.K.", "Italy", "Ecuador",
+      "Belgium", "Switzerland", "Germany"
+  )) |>
+  mutate(
+    cocoa_percentage = cocoa_percent / 100,
+    specialized = case_when(
+      company_location == "Belgium" ~ "Belgium",
+      company_location == "Switzerland" ~ "Switzerland",
+      TRUE ~ "Other"
+    )) |> 
+  ggplot(aes(x = cocoa_percentage, y = rating,
+             color = specialized)) +
+  geom_point(alpha = 0.25) +
+  geom_smooth(se = FALSE) +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1)) +
+  theme_minimal() +
+  labs(
+    x = "Percentage of Cocoa",
+    y = "Rating (From 1-5)",
+    title = "Countries Who Specialize in a Limited Cocoa Percentages Have More\n Consistently Higher Ratings",
+    subtitle = "Belgium and Switzerland Compared to the other 6 Locations",
+    color = "Company Location"
+  )
+```
+
+## Figure 2: Map of preferences for Cocoa Bean origination
 
 ```{r}
 #| label: fig-jason
@@ -221,7 +259,7 @@ world_df |>
   )
 ```
 
-## Victoria
+## Figure 3
 
 ```{r}
 #| label: fig-victoria
@@ -255,7 +293,7 @@ ggplot(chocolate_merged_final,
 
 ```
 
-## Minwoo
+## Figure 4
 
 ```{r}
 #| label: fig-minwoo
